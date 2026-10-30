@@ -1,0 +1,3 @@
+/Users/yasha/Desktop/Inventory App/build/CMakeFiles/inventory.dir
+/Users/yasha/Desktop/Inventory App/build/CMakeFiles/edit_cache.dir
+/Users/yasha/Desktop/Inventory App/build/CMakeFiles/rebuild_cache.dir

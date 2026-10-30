@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names -fsanitize=address,undefined CMakeFiles/inventory.dir/src/main.cpp.o -o inventory   -L/opt/homebrew/Cellar/libpqxx/8.0.2/lib  -Wl,-rpath,/opt/homebrew/Cellar/libpqxx/8.0.2/lib -lpqxx
