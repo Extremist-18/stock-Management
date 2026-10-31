@@ -1,4 +1,5 @@
 BEGIN;
+
 CREATE TABLE IF NOT EXISTS sites (
   id        SERIAL PRIMARY KEY,
   name      TEXT NOT NULL,
@@ -47,6 +48,7 @@ CREATE TABLE IF NOT EXISTS stock_txns (
 );
 ALTER TABLE stock_txns ADD COLUMN IF NOT EXISTS party TEXT;
 
+-- duplicate-tap guard: the same UUID can only be saved once
 ALTER TABLE stock_txns ADD COLUMN IF NOT EXISTS client_ref UUID;
 CREATE UNIQUE INDEX IF NOT EXISTS stock_txns_client_ref_key ON stock_txns (client_ref);
 
@@ -60,7 +62,6 @@ ALTER TABLE stock_txns ADD CONSTRAINT stock_txns_type_check CHECK (type IN
 
 CREATE INDEX IF NOT EXISTS stock_txns_lookup_idx ON stock_txns (site_id, material_id, txn_date);
 
--- per site+material: how long a delivery takes, and how many spare days you want on arrival
 CREATE TABLE IF NOT EXISTS reorder_settings (
   site_id        INT NOT NULL REFERENCES sites(id),
   material_id    INT NOT NULL REFERENCES materials(id),
@@ -118,19 +119,20 @@ CREATE UNIQUE INDEX IF NOT EXISTS user_requests_one_pending
 -- =====================================================================
 -- PALLET MODULE
 --   * Wood is a normal material (unit = 'CFT').
---   * Pallet types are products, not materials.
---   * CFT-per-pallet is versioned (append-only history) so old
---     production/reports stay correct when the factor changes.
+--   * Each pallet size is one pallet type, with its own CFT factor.
+--   * CFT factor is versioned (append-only history) so old production
+--     stays correct when the factor changes.
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS pallet_types (
   id         SERIAL PRIMARY KEY,
   name       TEXT NOT NULL UNIQUE,
+  size       TEXT,
   is_active  BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+ALTER TABLE pallet_types ADD COLUMN IF NOT EXISTS size TEXT;
 
--- Append-only history. Never UPDATE an old row; INSERT a new version
--- and let effective_from decide which one applies to a production date.
+-- Append-only history. Never UPDATE an old row; INSERT a new version.
 CREATE TABLE IF NOT EXISTS pallet_type_cft (
   id             BIGSERIAL PRIMARY KEY,
   pallet_type_id INT NOT NULL REFERENCES pallet_types(id),
@@ -138,26 +140,25 @@ CREATE TABLE IF NOT EXISTS pallet_type_cft (
   effective_from DATE NOT NULL DEFAULT ((now() AT TIME ZONE 'Asia/Kolkata')::date),
   note           TEXT,
   created_by     INT NOT NULL REFERENCES users(id),
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
-  UNIQUE (pallet_type_id, effective_from)
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+-- (older databases had a UNIQUE rule here that blocked same-day corrections)
+ALTER TABLE pallet_type_cft DROP CONSTRAINT IF EXISTS pallet_type_cft_pallet_type_id_effective_from_key;
 CREATE INDEX IF NOT EXISTS pallet_type_cft_lookup
   ON pallet_type_cft (pallet_type_id, effective_from DESC);
 
--- The CFT factor that was in force for a given pallet type on a given date.
+-- The CFT factor in force for a given pallet type on a given date.
 CREATE OR REPLACE FUNCTION cft_for(p_type INT, p_date DATE)
 RETURNS NUMERIC AS $$
   SELECT cft_per_pallet
   FROM pallet_type_cft
   WHERE pallet_type_id = p_type AND effective_from <= p_date
-  ORDER BY effective_from DESC
+  ORDER BY effective_from DESC, id DESC
   LIMIT 1;
 $$ LANGUAGE sql STABLE;
 
--- Pallet production: one row = "on this day, at this site, we built N pallets
--- of type T, which consumed M CFT of wood material W".
--- cft_per_pallet and cft_consumed are SNAPSHOTS — reports must never re-derive
--- them, otherwise editing the factor later would rewrite history.
+-- One row = "on this day, at this site, we built N pallets of type T, using M CFT of wood".
+-- cft_per_pallet and cft_consumed are saved copies: changing the factor later never rewrites history.
 CREATE TABLE IF NOT EXISTS pallet_production (
   id               BIGSERIAL PRIMARY KEY,
   site_id          INT NOT NULL REFERENCES sites(id),
@@ -173,18 +174,28 @@ CREATE TABLE IF NOT EXISTS pallet_production (
   created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at       TIMESTAMPTZ
 );
+
+-- wood rows created by a production run point back to it (so they are locked)
+ALTER TABLE stock_txns ADD COLUMN IF NOT EXISTS production_id BIGINT REFERENCES pallet_production(id);
+
+CREATE TABLE IF NOT EXISTS pallet_production_reversals (
+  production_id BIGINT PRIMARY KEY REFERENCES pallet_production(id),
+  reversed_by   INT NOT NULL REFERENCES users(id),
+  reversed_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  reason        TEXT NOT NULL
+);
+
 CREATE UNIQUE INDEX IF NOT EXISTS pallet_production_client_ref_key
   ON pallet_production (client_ref);
 CREATE INDEX IF NOT EXISTS pallet_production_lookup
   ON pallet_production (site_id, pallet_type_id, txn_date);
 
--- Pallet ledger: purchases, production inflow, sales/issues, adjustments.
+-- Pallet ledger: purchases, production, sales/issues, corrections.
 CREATE TABLE IF NOT EXISTS pallet_txns (
   id             BIGSERIAL PRIMARY KEY,
   site_id        INT NOT NULL REFERENCES sites(id),
   pallet_type_id INT NOT NULL REFERENCES pallet_types(id),
-  type           TEXT NOT NULL CHECK (type IN
-                    ('IN','PRODUCED','OUT','ADJUST_PLUS','ADJUST_MINUS')),
+  type           TEXT NOT NULL CHECK (type IN ('IN','PRODUCED','OUT','ADJUST_PLUS','ADJUST_MINUS')),
   quantity       INT NOT NULL CHECK (quantity > 0),
   party          TEXT,
   note           TEXT,
@@ -199,10 +210,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS pallet_txns_client_ref_key
 CREATE INDEX IF NOT EXISTS pallet_txns_lookup
   ON pallet_txns (site_id, pallet_type_id, txn_date);
 
-
 CREATE OR REPLACE FUNCTION txn_sign(t TEXT) RETURNS INT AS $$
-  SELECT CASE WHEN t IN ('IN','ADMIN_PLUS','TRANSFER_IN','BORROW_IN','LEND_RETURN','REPROCESS_IN')
-              THEN 1 ELSE -1 END;
+  SELECT CASE WHEN t IN ('IN','ADMIN_PLUS','TRANSFER_IN','BORROW_IN','LEND_RETURN','REPROCESS_IN') THEN 1 ELSE -1 END;
 $$ LANGUAGE sql IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION pallet_sign(t TEXT) RETURNS INT AS $$
@@ -214,7 +223,7 @@ CREATE OR REPLACE VIEW current_stock AS
 SELECT site_id, material_id, SUM(txn_sign(type) * quantity) AS balance
 FROM stock_txns GROUP BY site_id, material_id;
 
--- EVERY active site x active material, with 0 where nothing was ever entered.
+-- EVERY active site x active material, with 0 where nothing was ever entered
 CREATE OR REPLACE VIEW stock_overview AS
 SELECT s.id AS site_id, s.name AS site, m.id AS material_id, m.name AS material, m.unit,
        COALESCE(cs.balance, 0) AS balance
@@ -238,6 +247,8 @@ LEFT JOIN current_pallet_stock cps
        ON cps.site_id = s.id AND cps.pallet_type_id = p.id
 WHERE s.is_active AND p.is_active;
 
+
+---- Append Only
 CREATE OR REPLACE FUNCTION block_truncate() RETURNS trigger AS $$
 BEGIN
   RAISE EXCEPTION 'TRUNCATE is not allowed on %', TG_TABLE_NAME;
@@ -249,7 +260,6 @@ BEGIN
   RAISE EXCEPTION 'audit_log is append-only';
 END;
 $$ LANGUAGE plpgsql;
-
 
 DROP TRIGGER IF EXISTS audit_log_no_update_delete ON audit_log;
 CREATE TRIGGER audit_log_no_update_delete
@@ -272,9 +282,6 @@ DROP TRIGGER IF EXISTS pallet_production_no_truncate ON pallet_production;
 CREATE TRIGGER pallet_production_no_truncate BEFORE TRUNCATE ON pallet_production
 FOR EACH STATEMENT EXECUTE FUNCTION block_truncate();
 
--- =====================================================================
--- RULE 2: NO BACK-DATING (stock_txns and pallet rows)
--- =====================================================================
 CREATE OR REPLACE FUNCTION stock_txns_force_now() RETURNS trigger AS $$
 BEGIN
   NEW.txn_date   := (now() AT TIME ZONE 'Asia/Kolkata')::date;
@@ -311,8 +318,7 @@ FOR EACH ROW EXECUTE FUNCTION pallet_force_now();
 CREATE OR REPLACE FUNCTION edit_window() RETURNS interval AS $$
 SELECT interval '1 hour' $$ LANGUAGE sql IMMUTABLE;
 
--- only the creator, only in the first hour, only quantity + note;
--- transfer entries can never be edited/deleted; every change audited.
+
 CREATE OR REPLACE FUNCTION stock_txns_guard() RETURNS trigger AS $$
 DECLARE
   v_uid INT := NULLIF(current_setting('app.user_id', true), '')::int;
@@ -321,39 +327,40 @@ BEGIN
     RAISE EXCEPTION 'app.user_id is not set';
   END IF;
 
-  -- only the person who made the entry can change it
   IF v_uid <> OLD.created_by THEN
     RAISE EXCEPTION 'Only the creator can edit or delete this entry';
   END IF;
 
-  -- the two halves of a transfer must always stay matched
   IF OLD.transfer_ref IS NOT NULL THEN
     RAISE EXCEPTION 'Transfer entries cannot be edited or deleted';
   END IF;
 
-  -- 1-hour window, measured by the database clock
+  IF OLD.production_id IS NOT NULL THEN
+    RAISE EXCEPTION 'Production entries cannot be edited or deleted';
+  END IF;
+
   IF now() - OLD.created_at > edit_window() THEN
     RAISE EXCEPTION 'This entry is locked and can no longer be changed. Ask the admin to correct it.';
   END IF;
 
   IF TG_OP = 'UPDATE' THEN
-    IF NEW.id           <> OLD.id
-    OR NEW.site_id      <> OLD.site_id
-    OR NEW.material_id  <> OLD.material_id
-    OR NEW.type         <> OLD.type
-    OR NEW.txn_date     <> OLD.txn_date
-    OR NEW.created_by   <> OLD.created_by
-    OR NEW.created_at   <> OLD.created_at
-    OR NEW.transfer_ref IS DISTINCT FROM OLD.transfer_ref
-    OR NEW.party        IS DISTINCT FROM OLD.party THEN
+    IF NEW.id            <> OLD.id
+    OR NEW.site_id       <> OLD.site_id
+    OR NEW.material_id   <> OLD.material_id
+    OR NEW.type          <> OLD.type
+    OR NEW.txn_date      <> OLD.txn_date
+    OR NEW.created_by    <> OLD.created_by
+    OR NEW.created_at    <> OLD.created_at
+    OR NEW.transfer_ref  IS DISTINCT FROM OLD.transfer_ref
+    OR NEW.production_id IS DISTINCT FROM OLD.production_id
+    OR NEW.party         IS DISTINCT FROM OLD.party THEN
       RAISE EXCEPTION 'Only quantity and note can be edited';
     END IF;
     NEW.updated_at := now();
   END IF;
 
   INSERT INTO audit_log (table_name, record_id, action, old_data, new_data, changed_by)
-  VALUES ('stock_txns', OLD.id, TG_OP, to_jsonb(OLD),
-          CASE WHEN TG_OP = 'UPDATE' THEN to_jsonb(NEW) END, v_uid);
+  VALUES ('stock_txns', OLD.id, TG_OP, to_jsonb(OLD), CASE WHEN TG_OP = 'UPDATE' THEN to_jsonb(NEW) END, v_uid);
 
   IF TG_OP = 'DELETE' THEN RETURN OLD; END IF;
   RETURN NEW;
@@ -384,7 +391,6 @@ BEGIN
   END IF;
 
   IF v_delta < 0 THEN
-    -- one at a time per site+material, so two simultaneous entries can't both pass
     PERFORM pg_advisory_xact_lock(v_site, v_mat);
 
     SELECT COALESCE(balance, 0) INTO v_bal
@@ -406,6 +412,7 @@ DROP TRIGGER IF EXISTS trg_2_no_negative ON stock_txns;
 CREATE TRIGGER trg_2_no_negative
 BEFORE INSERT OR UPDATE OR DELETE ON stock_txns
 FOR EACH ROW EXECUTE FUNCTION stock_txns_no_negative();
+
 
 CREATE OR REPLACE FUNCTION pallet_txns_no_negative() RETURNS trigger AS $$
 DECLARE
@@ -443,10 +450,45 @@ DROP TRIGGER IF EXISTS trg_pt_no_negative ON pallet_txns;
 CREATE TRIGGER trg_pt_no_negative BEFORE INSERT OR UPDATE OR DELETE ON pallet_txns
 FOR EACH ROW EXECUTE FUNCTION pallet_txns_no_negative();
 
--- Pallet production is immutable once inserted (delete/reverse via an ADJUST row).
+-- Pallet rules: only the creator, only in the first hour, only bought/issued rows, audited
+CREATE OR REPLACE FUNCTION pallet_txns_guard() RETURNS trigger AS $$
+DECLARE
+  v_uid INT := NULLIF(current_setting('app.user_id', true), '')::int;
+BEGIN
+  IF v_uid IS NULL THEN RAISE EXCEPTION 'app.user_id is not set'; END IF;
+  IF v_uid <> OLD.created_by THEN
+    RAISE EXCEPTION 'Only the creator can edit or delete this entry';
+  END IF;
+  IF OLD.production_id IS NOT NULL OR OLD.type NOT IN ('IN','OUT') THEN
+    RAISE EXCEPTION 'Production and correction entries cannot be edited or deleted';
+  END IF;
+  IF now() - OLD.created_at > edit_window() THEN
+    RAISE EXCEPTION 'This entry is locked and can no longer be changed. Ask the admin to correct it.';
+  END IF;
+  IF TG_OP = 'UPDATE' THEN
+    IF NEW.id <> OLD.id OR NEW.site_id <> OLD.site_id OR NEW.pallet_type_id <> OLD.pallet_type_id
+       OR NEW.type <> OLD.type OR NEW.txn_date <> OLD.txn_date OR NEW.created_by <> OLD.created_by
+       OR NEW.created_at <> OLD.created_at
+       OR NEW.production_id IS DISTINCT FROM OLD.production_id THEN
+      RAISE EXCEPTION 'Only quantity, party and note can be edited';
+    END IF;
+  END IF;
+  INSERT INTO audit_log (table_name, record_id, action, old_data, new_data, changed_by)
+  VALUES ('pallet_txns', OLD.id, TG_OP, to_jsonb(OLD),
+          CASE WHEN TG_OP = 'UPDATE' THEN to_jsonb(NEW) END, v_uid);
+  IF TG_OP = 'DELETE' THEN RETURN OLD; END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_pt_guard ON pallet_txns;
+CREATE TRIGGER trg_pt_guard BEFORE UPDATE OR DELETE ON pallet_txns
+FOR EACH ROW EXECUTE FUNCTION pallet_txns_guard();
+
+-- Production records can never be edited or deleted (undo = admin reversal)
 CREATE OR REPLACE FUNCTION pallet_production_immutable() RETURNS trigger AS $$
 BEGIN
-  RAISE EXCEPTION 'pallet_production rows cannot be edited; post a reversing ADJUST row instead';
+  RAISE EXCEPTION 'pallet_production rows cannot be edited; ask the admin to reverse the run';
 END;
 $$ LANGUAGE plpgsql;
 
@@ -454,10 +496,10 @@ DROP TRIGGER IF EXISTS trg_pp_immutable ON pallet_production;
 CREATE TRIGGER trg_pp_immutable BEFORE UPDATE OR DELETE ON pallet_production
 FOR EACH ROW EXECUTE FUNCTION pallet_production_immutable();
 
--- CFT factor history is append-only.
+-- CFT factor history is append-only
 CREATE OR REPLACE FUNCTION pallet_type_cft_immutable() RETURNS trigger AS $$
 BEGIN
-  RAISE EXCEPTION 'pallet_type_cft rows cannot be edited; insert a new effective version instead';
+  RAISE EXCEPTION 'pallet_type_cft rows cannot be edited; set a new factor instead';
 END;
 $$ LANGUAGE plpgsql;
 
@@ -471,33 +513,23 @@ INSERT INTO sites (name, location) VALUES
   ('Caldreys Orrisa',  'Orrisa')
 ON CONFLICT (name) DO NOTHING;
 
+
+
+
+
+--- NEED CHANGE HERE!!!
 INSERT INTO materials (name, unit) VALUES
   ('Cement','bags'), ('Sand','tons'), ('Steel','kg')
 ON CONFLICT (name) DO NOTHING;
 
--- Wood is a normal material, unit = CFT.
 INSERT INTO materials (name, unit) VALUES ('Wood','CFT')
 ON CONFLICT (name) DO NOTHING;
 
-INSERT INTO pallet_types (name) VALUES
-  ('Euro 1200x800'),
-  ('Industrial 1200x1000')
-ON CONFLICT (name) DO NOTHING;
-
+-- First admin: only created when you pass  -v admin_hash='...'
 \if :{?admin_hash}
 INSERT INTO users (name, username, password_hash, role)
 VALUES ('Admin', 'admin', :'admin_hash', 'admin')
 ON CONFLICT (username) DO NOTHING;
 \endif
-
-INSERT INTO pallet_type_cft (pallet_type_id, cft_per_pallet, effective_from, note, created_by)
-SELECT pt.id, 2.5, DATE '2025-01-01', 'initial seed', u.id
-FROM pallet_types pt
-CROSS JOIN users u
-WHERE pt.name = 'Euro 1200x800'
-  AND u.username = 'admin'
-  AND NOT EXISTS (
-    SELECT 1 FROM pallet_type_cft c WHERE c.pallet_type_id = pt.id
-  );
 
 COMMIT;

@@ -2,20 +2,24 @@
 #include <cmath> 
 #include "auth/guard.hpp"
 #include <regex>
+#include <sstream>
+#include <vector>
+#include <string>
 
 inline void registerPalletRoutes(App& app, Pool& pool){
     // pallet types 
     app.get("/pallet-types", requireAuth(pool, [&pool](Request& req, Response& res){
+        const bool all = req.role == "admin" && req.query.count("all") && req.query["all"] == "1";
         auto conn = pool.acquire(); pqxx::work tx(*conn);
         auto x = tx.exec(
-          "SELECT pt.id, pt.name, pt.is_active, "
+          "SELECT pt.id, pt.name, pt.size, pt.is_active, "
           "       cft_for(pt.id, (now() AT TIME ZONE 'Asia/Kolkata')::date) AS cft_per_pallet "
-          "FROM pallet_types pt WHERE pt.is_active ORDER BY pt.name");
+          "FROM pallet_types pt WHERE ($1 OR pt.is_active) ORDER BY pt.name", pqxx::params{all});
         tx.commit();
         nlohmann::json arr = nlohmann::json::array();
-        for (auto i : x) {
-            nlohmann::json cft = i["cft_per_pallet"].is_null()?nlohmann::json(nullptr) : nlohmann::json(i["cft_per_pallet"].as<double>());
-            arr.push_back({{"id", i["id"].as<int>()}, {"name", i["name"].as<std::string>()}, {"cft_per_pallet", cft}});
+        for(auto i:x){
+            nlohmann::json cft = i["cft_per_pallet"].is_null() ? nlohmann::json(nullptr) : nlohmann::json(i["cft_per_pallet"].as<double>());
+            arr.push_back({{"id", i["id"].as<int>()}, {"name", i["name"].as<std::string>()},{"size", nullableText(i["size"])}, {"is_active", i["is_active"].as<bool>()}, {"cft_per_pallet", cft}});
         }
         res.json(200, arr);
     }));
@@ -23,16 +27,47 @@ inline void registerPalletRoutes(App& app, Pool& pool){
     app.post("/pallet-types", requireAdmin(pool, [&pool](Request& req, Response& res){
         nlohmann::json j;
         if(!jsonBody(req, res, j)) return;
-        std::string name = j.value("name", "");
-        if(name.empty() || (int)name.size()>100) {
-            res.error(400, "name required (max 100 chars)"); return;
+        std::string name = j.value("name", ""), size = j.value("size", "");
+        if(name.empty() || name.size() > 100) { res.error(400, "name required (max 100 chars)"); return; }
+        if(size.size() > 100) { res.error(400, "size max 100 chars"); return; }
+        bool hasCft = j.contains("cft_per_pallet");
+        double cft = 0;
+        if(hasCft){
+            if(!j["cft_per_pallet"].is_number()) { res.error(400, "cft_per_pallet must be a number"); return; }
+            cft = j["cft_per_pallet"].get<double>();
+            if(!(cft > 0 && cft <= 1000)) { res.error(400, "cft_per_pallet must be in (0, 1000]"); return; }
         }
         auto conn = pool.acquire(); pqxx::work tx(*conn);
-        auto r = tx.exec("INSERT INTO pallet_types (name) VALUES ($1) RETURNING id",pqxx::params{name});
+        auto r = tx.exec("INSERT INTO pallet_types (name, size) VALUES ($1, NULLIF($2,'')) RETURNING id", pqxx::params{name, size});
         int id = r[0][0].as<int>();
+        if(hasCft) tx.exec("INSERT INTO pallet_type_cft (pallet_type_id, cft_per_pallet, note, created_by) VALUES ($1,$2,'initial factor',$3)",pqxx::params{id, cft, req.user_id});
         audit(tx, "pallet_types", id, "PALLET_TYPE_CREATED", req.user_id, j);
         tx.commit();
         res.json(201, {{"id", id}});
+    }));
+
+    app.put("/pallet-types/:id", requireAdmin(pool, [&pool](Request& req, Response& res){
+        int id; if(!idParam(req, res, "id", id)) return;
+        nlohmann::json j;
+        if(!jsonBody(req, res, j)) return;
+        auto conn = pool.acquire(); pqxx::work tx(*conn);
+        auto cur = tx.exec("SELECT name, size, is_active FROM pallet_types WHERE id=$1 FOR UPDATE", pqxx::params{id});
+        if(cur.empty()) { res.error(404, "pallet type not found"); return; }
+
+        std::string name = j.contains("name") ? j["name"].get<std::string>() : cur[0]["name"].as<std::string>();
+        std::string size = j.contains("size") ? j["size"].get<std::string>() : (cur[0]["size"].is_null() ? "" : cur[0]["size"].as<std::string>());
+        bool active = j.contains("is_active") ? j["is_active"].get<bool>() : cur[0]["is_active"].as<bool>();
+        if(name.empty() || name.size() > 100) { res.error(400, "name required (max 100 chars)"); return; }
+        if(size.size() > 100) { res.error(400, "size max 100 chars"); return; }
+
+        if(!active){
+            auto bal = tx.exec("SELECT COALESCE(SUM(balance),0) AS b FROM current_pallet_stock WHERE pallet_type_id=$1", pqxx::params{id});
+            if(bal[0]["b"].as<double>() != 0) { res.error(400, "pallets of this type are still in stock, cannot switch it off"); return; }
+        }
+        tx.exec("UPDATE pallet_types SET name=$2, size=NULLIF($3,''), is_active=$4 WHERE id=$1", pqxx::params{id, name, size, active});
+        audit(tx, "pallet_types", id, "PALLET_TYPE_UPDATED", req.user_id, j);
+        tx.commit();
+        res.json(200, {{"ok", true}});
     }));
 
     // Set the CFT factor
@@ -79,7 +114,7 @@ inline void registerPalletRoutes(App& app, Pool& pool){
         nlohmann::json arr = nlohmann::json::array();
         for (auto i : x) arr.push_back({
             {"id", i["id"].as<long long>()},{"cft_per_pallet", i["cft_per_pallet"].as<double>()},{"effective_from", i["from_date"].as<std::string>()},
-            {"note", sv(i["note"])},{"created_at", i["at"].as<std::string>()}
+            {"note", nullableText(i["note"])},{"created_at", i["at"].as<std::string>()}
         });
         res.json(200, arr);
     }));
@@ -90,98 +125,84 @@ inline void registerPalletRoutes(App& app, Pool& pool){
         if(!jsonBody(req, res, j)) return;
 
         if(!j.contains("site_id") || !j.contains("pallet_type_id") ||
-            !j.contains("quantity") || !j.contains("wood_material_id")) {
+           !j.contains("quantity") || !j.contains("wood_material_id")) {
             res.error(400, "need site_id, pallet_type_id, quantity, wood_material_id"); return;
         }
-        int site = j["site_id"].get<int>(), pt   = j["pallet_type_id"].get<int>();
-        int wood = j["wood_material_id"].get<int>(),qty  = j["quantity"].get<int>();
+        int site = j["site_id"].get<int>(), pt   = j["pallet_type_id"].get<int>(),wood = j["wood_material_id"].get<int>(),qty  = j["quantity"].get<int>();
         std::string note = j.value("note", "");
         std::string ref  = j.value("client_ref", "");
 
-        if(qty<=0 || qty>1000000) { res.error(400, "quantity must be 1..1000000"); return; }
+        if(qty<=0 || qty>1000000) { res.error(400, "quantity must be greater than zero"); return; }
         if(!ref.empty() && !isUuid(ref)) { res.error(400, "client_ref must be a UUID"); return; }
 
         auto conn = pool.acquire(); pqxx::work tx(*conn);
         if(!canAccessSite(tx, req, site)) { res.error(403, "no access to this site"); return; }
         setUser(tx, req.user_id);
 
-        // idempotency
+        // same request sent twice (double tap): return the first result, save nothing new
         if(!ref.empty()){
-            auto dup = tx.exec("SELECT id FROM pallet_production WHERE client_ref = $1::uuid",pqxx::params{ref});
+            auto dup = tx.exec("SELECT id FROM pallet_production WHERE client_ref = $1::uuid", pqxx::params{ref});
             if(!dup.empty()){
                 res.json(200, {{"id", dup[0][0].as<long long>()}, {"duplicate", true}});
                 return;
             }
         }
-        // lock the type & wood material & verify they're active
-        auto chk = tx.exec(
-          "SELECT (SELECT is_active FROM pallet_types WHERE id=$1) AS pt, (SELECT is_active FROM materials   WHERE id=$2) AS w",
-          pqxx::params{pt, wood});
+
+        // pallet type must be active, wood must be an active material measured in CFT
+        auto chk = tx.exec("SELECT (SELECT is_active FROM pallet_types WHERE id=$1) AS pt, "
+          "(SELECT is_active AND upper(unit)='CFT' FROM materials WHERE id=$2) AS w",pqxx::params{pt, wood});
         if(chk[0]["pt"].is_null() || !chk[0]["pt"].as<bool>() || chk[0]["w"].is_null()  || !chk[0]["w"].as<bool>()){
-            res.error(400, "unknown or inactive pallet_type / wood material"); return;
+            res.error(400, "unknown or inactive pallet_type / wood material (wood must be in CFT)");
+            return;
         }
 
-        auto cft_r = tx.exec("SELECT cft_for($1::int, (now() AT TIME ZONE 'Asia/Kolkata')::date) AS c",pqxx::params{pt});
+        // today's CFT factor for this pallet size
+        auto cft_r = tx.exec("SELECT cft_for($1::int, (now() AT TIME ZONE 'Asia/Kolkata')::date) AS c", pqxx::params{pt});
         if(cft_r[0]["c"].is_null()){
             res.error(409, "no CFT factor set for this pallet type; set one first"); return;
         }
-        double cft_per = cft_r[0]["c"].as<double>();
-        double consumed = std::round(cft_per * qty * 1000.0) / 1000.0;
+        double cft_per  = cft_r[0]["c"].as<double>(), consumed = std::round(cft_per * qty * 1000.0) / 1000.0;
 
-        // 1) insert production row (immutable snapshot)
-        auto pr = tx.exec(
-          "INSERT INTO pallet_production "
-          "  (site_id, pallet_type_id, quantity, cft_per_pallet, cft_consumed, wood_material_id, note, client_ref, created_by) "
-          "VALUES ($1,$2,$3,$4,$5,$6,$7,NULLIF($8,'')::uuid,$9) RETURNING id",pqxx::params{site, pt, qty, cft_per, consumed, wood, note, ref, req.user_id});
+        // 1) production record (keeps the factor that was used)
+        auto pr = tx.exec( "INSERT INTO pallet_production (site_id, pallet_type_id, quantity, cft_per_pallet, cft_consumed, wood_material_id, note, client_ref, created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,NULLIF($8,'')::uuid,$9) RETURNING id",pqxx::params{site, pt, qty, cft_per, consumed, wood, note, ref, req.user_id});
         long long prod_id = pr[0][0].as<long long>();
 
-        // 2) debit wood via the NORMAL stock ledger — trigger refuses if insufficient
+        // 2) wood OUT (the database will refuse this if there is not enough wood)
         tx.exec(
-          "INSERT INTO stock_txns (site_id, material_id, type, quantity, note, created_by) VALUES ($1,$2,'USAGE',$3,$4,$5)",
-          pqxx::params{site, wood, consumed,"pallet production #" + std::to_string(prod_id), req.user_id});
+          "INSERT INTO stock_txns (site_id, material_id, type, quantity, note, production_id, created_by) "
+          "VALUES ($1,$2,'USAGE',$3,$4,$5,$6)",pqxx::params{site, wood, consumed, "pallet production #" + std::to_string(prod_id), prod_id, req.user_id});
 
-        // 3) credit pallets
-        tx.exec(
-          "INSERT INTO pallet_txns (site_id, pallet_type_id, type, quantity, note, production_id, created_by) VALUES ($1,$2,'PRODUCED',$3,$4,$5,$6)",
-          pqxx::params{site, pt, qty,"pallet production #" + std::to_string(prod_id),(long long)prod_id, req.user_id});
+        // 3) pallets IN
+        tx.exec("INSERT INTO pallet_txns (site_id, pallet_type_id, type, quantity, note, production_id, created_by) VALUES ($1,$2,'PRODUCED',$3,$4,$5,$6)",pqxx::params{site, pt, qty, "pallet production #" + std::to_string(prod_id), prod_id, req.user_id});
 
         audit(tx, "pallet_production", prod_id, "PALLET_PRODUCED", req.user_id,{{"site_id", site}, {"pallet_type_id", pt}, {"quantity", qty},{"cft_per_pallet", cft_per}, {"cft_consumed", consumed}});
-        tx.commit(); 
+        tx.commit();
         res.json(201, {{"id", prod_id}, {"cft_consumed", consumed}});
     }));
 
     // pallet stock-in (bought finished pallets) 
     app.post("/pallet-stock-in", requireAuth(pool, [&pool](Request& req, Response& res){
         nlohmann::json j;
-        if (!jsonBody(req, res, j)) return;
-        if (!j.contains("site_id") || !j.contains("pallet_type_id") || !j.contains("quantity")) {
+        if(!jsonBody(req, res, j)) return;
+        if(!j.contains("site_id") || !j.contains("pallet_type_id") || !j.contains("quantity")) {
             res.error(400, "need site_id, pallet_type_id, quantity"); return;
         }
-        int site = j["site_id"].get<int>();
-        int pt   = j["pallet_type_id"].get<int>(),qty  = j["quantity"].get<int>();
+        int site = j["site_id"].get<int>(),pt= j["pallet_type_id"].get<int>(),qty  = j["quantity"].get<int>();
         std::string party = j.value("party", "");
-        std::string note  = j.value("note", "");
-        std::string ref   = j.value("client_ref", "");
-        if(qty <= 0) { res.error(400, "quantity must be > 0"); return; }
+        std::string note  = j.value("note", ""), ref   = j.value("client_ref", "");
+        if(qty<=0) { res.error(400, "quantity must be > 0"); return; }
         if(!ref.empty() && !isUuid(ref)) { res.error(400, "client_ref must be a UUID"); return; }
 
         auto conn = pool.acquire(); pqxx::work tx(*conn);
         if(!canAccessSite(tx, req, site)) { res.error(403, "no access to this site"); return; }
 
-        auto chk = tx.exec(
-          "SELECT (SELECT is_active FROM pallet_types WHERE id=$1) AS pt, "
-          "       (SELECT is_active FROM sites        WHERE id=$2) AS s",
-          pqxx::params{pt, site});
-        if (chk[0]["pt"].is_null() || !chk[0]["pt"].as<bool>() ||
-            chk[0]["s"].is_null()  || !chk[0]["s"].as<bool>()) {
+        auto chk = tx.exec("SELECT (SELECT is_active FROM pallet_types WHERE id=$1) AS pt, (SELECT is_active FROM sites WHERE id=$2) AS s",pqxx::params{pt, site});
+        if (chk[0]["pt"].is_null() || !chk[0]["pt"].as<bool>() || chk[0]["s"].is_null()  || !chk[0]["s"].as<bool>()) {
             res.error(400, "unknown or inactive pallet_type / site"); return;
         }
 
         auto r = tx.exec(
-          "INSERT INTO pallet_txns "
-          "  (site_id, pallet_type_id, type, quantity, party, note, client_ref, created_by) "
-          "VALUES ($1,$2,'IN',$3,$4,$5,NULLIF($6,'')::uuid,$7) RETURNING id",
-          pqxx::params{site, pt, qty, party, note, ref, req.user_id});
+          "INSERT INTO pallet_txns (site_id, pallet_type_id, type, quantity, party, note, client_ref, created_by) VALUES ($1,$2,'IN',$3,$4,$5,NULLIF($6,'')::uuid,$7) RETURNING id",pqxx::params{site, pt, qty, party, note, ref, req.user_id});
         audit(tx, "pallet_txns", r[0][0].as<long long>(), "PALLET_STOCK_IN",req.user_id, j);
         tx.commit();
         res.json(201, {{"id", r[0][0].as<long long>()}});
@@ -233,27 +254,24 @@ inline void registerPalletRoutes(App& app, Pool& pool){
     // production history, one site 
     app.get("/sites/:id/pallet-production", requireAuth(pool, [&pool](Request& req, Response& res){
         int id; if (!idParam(req, res, "id", id)) return;
-        std::string from = req.query.count("from") ? req.query["from"] : "2025-01-01";
-        std::string to   = req.query.count("to")   ? req.query["to"]   : "9999-12-31";
+        std::string from=req.query.count("from") && !req.query["from"].empty()?req.query["from"]:"2025-01-01";
+        std::string to=req.query.count("to") && !req.query["to"].empty() ? req.query["to"]:"9999-12-31";
         auto conn = pool.acquire(); pqxx::work tx(*conn);
         if(!canAccessSite(tx, req, id)) { res.error(403, "no access to this site"); return; }
         auto x = tx.exec(
           "SELECT pp.id, pt.name AS pallet_type, pp.quantity, pp.cft_per_pallet, "
-          "       pp.cft_consumed, m.name AS wood, pp.txn_date::text AS date, pp.note, u.name AS by_name "
-          "FROM pallet_production pp "
-          "JOIN pallet_types pt ON pt.id = pp.pallet_type_id "
-          "JOIN materials m    ON m.id  = pp.wood_material_id "
-          "JOIN users u        ON u.id  = pp.created_by "
-          "WHERE pp.site_id = $1 AND pp.txn_date >= $2::date AND pp.txn_date <= $3::date "
-          "ORDER BY pp.created_at DESC, pp.id DESC LIMIT 200",
-          pqxx::params{id, from, to});
+          "       pp.cft_consumed, m.name AS wood, pp.txn_date::text AS date, pp.note, u.name AS by_name, "
+          "       EXISTS(SELECT 1 FROM pallet_production_reversals r WHERE r.production_id = pp.id) AS reversed "
+          "FROM pallet_production pp JOIN pallet_types pt ON pt.id = pp.pallet_type_id "
+          "JOIN materials m ON m.id  = pp.wood_material_id JOIN users u ON u.id  = pp.created_by "
+          "WHERE pp.site_id=$1 AND pp.txn_date >= $2::date AND pp.txn_date <= $3::date "
+          "ORDER BY pp.created_at DESC, pp.id DESC LIMIT 200",pqxx::params{id, from, to});
         tx.commit();
         nlohmann::json arr = nlohmann::json::array();
         for (auto i : x) arr.push_back({
-            {"id", i["id"].as<long long>()},{"pallet_type", i["pallet_type"].as<std::string>()},
-            {"quantity", i["quantity"].as<int>()}, {"cft_per_pallet", i["cft_per_pallet"].as<double>()},
+            {"id", i["id"].as<long long>()},{"pallet_type", i["pallet_type"].as<std::string>()},{"quantity", i["quantity"].as<int>()}, {"cft_per_pallet", i["cft_per_pallet"].as<double>()},
             {"cft_consumed", i["cft_consumed"].as<double>()}, {"wood", i["wood"].as<std::string>()},{"date", i["date"].as<std::string>()},
-            {"note", sv(i["note"])},{"by", i["by_name"].as<std::string>()}
+            {"note", nullableText(i["note"])},{"by", i["by_name"].as<std::string>()},{"reversed", i["reversed"].as<bool>()}
         });
         res.json(200, arr);
     }));
@@ -296,7 +314,7 @@ inline void registerPalletRoutes(App& app, Pool& pool){
             bool mine = i["created_by"].as<int>()==req.user_id;
             arr.push_back({{"id",i["id"].as<long long>()},{"pallet_type",i["pallet_type"].as<std::string>()},
                 {"type",i["type"].as<std::string>()},{"quantity",i["quantity"].as<int>()},
-                {"party",sv(i["party"])},{"note",sv(i["note"])},{"date",i["date"].as<std::string>()},
+                {"party",nullableText(i["party"])},{"note",nullableText(i["note"])},{"date",i["date"].as<std::string>()},
                 {"by",i["by_name"].as<std::string>()},{"created_at",i["created_at"].as<std::string>()},
                 {"editable", mine && i["can_edit"].as<bool>()}});
         }

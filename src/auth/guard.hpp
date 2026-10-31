@@ -17,6 +17,11 @@ inline bool isIsoDate(const std::string& s){
     return std::regex_match(s,re);
 }
 
+template <class F>
+inline nlohmann::json nullableText(const F &f){
+    return f.is_null() ? nlohmann::json(nullptr) : nlohmann::json(f.template as<std::string>());
+}
+
 inline bool isUuid(const std::string& s){
     static const std::regex re("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
     return std::regex_match(s,re);
@@ -87,10 +92,10 @@ inline Handler requireAdmin(Pool& pool, Handler next){
     });
 }
 
-// nullable text column -> JSON string, or null
-inline nlohmann::json sv(const pqxx::field &f){
-    return f.is_null() ? nlohmann::json(nullptr) : nlohmann::json(f.as<std::string>());
-}
+// // nullable text column -> JSON string, or null
+// inline nlohmann::json sv(const pqxx::field &f){
+//     return f.is_null() ? nlohmann::json(nullptr) : nlohmann::json(f.as<std::string>());
+// }
 
 // Tells the database triggers who is acting (lasts only for this transaction).
 inline void setUser(pqxx::work& tx, int id) {

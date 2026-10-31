@@ -123,7 +123,7 @@ inline void registerStockRoutes(App &app, Pool &pool){
 
         nlohmann::json sj=nlohmann::json::array(), mj=nlohmann::json::array(), stj=nlohmann::json::array();
         for(auto i:sites)
-            sj.push_back({{"id",i["id"].as<int>()},{"name",i["name"].as<std::string>()},{"location",sv(i["location"])}});
+            sj.push_back({{"id",i["id"].as<int>()},{"name",i["name"].as<std::string>()},{"location",nullableText(i["location"])}});
         for(auto i:mats)
             mj.push_back({{"id",i["id"].as<int>()},{"name",i["name"].as<std::string>()},{"unit",i["unit"].as<std::string>()}});
         for(auto i:stock)
@@ -151,7 +151,7 @@ inline void registerStockRoutes(App &app, Pool &pool){
             "SELECT t.id, t.material_id, m.name AS material, m.unit, t.type, t.quantity, "
             "t.txn_date::text AS txn_date, t.note, t.created_by, u.name AS by_name, "
             "t.created_at::text AS created_at, "
-            "(t.transfer_ref IS NULL AND now() - t.created_at <= edit_window()) AS can_edit "
+            "(t.transfer_ref IS NULL AND t.production_id IS NULL AND now() - t.created_at <= edit_window()) AS can_edit "
             "FROM stock_txns t JOIN materials m ON m.id = t.material_id JOIN users u ON u.id = t.created_by "
             "WHERE t.site_id = $1 AND t.txn_date >= $2::date AND t.txn_date <= $3::date "
             "ORDER BY t.created_at DESC, t.id DESC LIMIT $4", pqxx::params{id,from,to,limit});
