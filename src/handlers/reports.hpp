@@ -13,10 +13,6 @@ inline constexpr double kDefaultCoverDays  = 7;    // a delivery should last thi
 inline double round3(double x){ return std::round(x*1000.0)/1000.0; }
 inline double round1(double x){ return std::round(x*10.0)/10.0; }
 
-inline bool isIsoDate(const std::string &s){
-    static const std::regex re("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
-    return std::regex_match(s,re);
-}
 inline std::string csvText(std::string s){
     if(!s.empty() && (s[0]=='=' || s[0]=='+' || s[0]=='-' || s[0]=='@')) s = "'" + s;
     if(s.find_first_of(",\"\r\n")==std::string::npos) return s;

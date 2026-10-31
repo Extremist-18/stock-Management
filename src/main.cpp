@@ -35,7 +35,7 @@
 #include "handlers/stock.hpp"
 #include "http/App.hpp"
 #include "handlers/reports.hpp"
-#include "handlers/pallets.hpp"
+#include "handlers/pallet.hpp"
 
 int main(int argc, char** argv) {
     pw::init();
