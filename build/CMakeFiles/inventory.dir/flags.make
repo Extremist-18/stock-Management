@@ -4,9 +4,9 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/Users/yasha/Desktop/Inventory App/src" -I/opt/homebrew/Cellar/libpqxx/8.0.2/include -I/opt/homebrew/opt/libpq/include -I/opt/homebrew/Cellar/openssl@4/4.0.3/include -I/opt/homebrew/Cellar/nlohmann-json/3.12.0/include
+CXX_INCLUDES = -I"/Users/yasha/Desktop/Inventory App/src" -I/opt/homebrew/Cellar/libpqxx/8.0.2/include -I/opt/homebrew/opt/libpq/include -I/opt/homebrew/Cellar/openssl@4/4.1.0/include -I/opt/homebrew/Cellar/nlohmann-json/3.12.0/include -I/opt/homebrew/Cellar/libsodium/1.0.22/include
 
-CXX_FLAGSarm64 = -std=gnu++20 -arch arm64 -Wall -Wextra -fsanitize=address,undefined
+CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra
 
-CXX_FLAGS = -std=gnu++20 -arch arm64 -Wall -Wextra -fsanitize=address,undefined
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra
 

@@ -1,5 +1,4 @@
 CMakeFiles/inventory.dir/src/main.cpp.o: \
-  /Library/Developer/CommandLineTools/usr/lib/clang/17/share/asan_ignorelist.txt \
   /Users/yasha/Desktop/Inventory\ App/src/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdlib \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
@@ -933,6 +932,83 @@ CMakeFiles/inventory.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
+  /Users/yasha/Desktop/Inventory\ App/src/auth/password.hpp \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/version.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/export.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/core.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_aead_aegis128l.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_aead_aegis256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_aead_aes256gcm.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_aead_chacha20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_aead_xchacha20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_auth.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_auth_hmacsha512256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_auth_hmacsha512.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_hash_sha512.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_auth_hmacsha256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_hash_sha256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_box.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_xsalsa20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_hchacha20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_hsalsa20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_keccak1600.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_salsa20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_salsa2012.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_salsa208.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_generichash.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_generichash_blake2b.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_hash.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_hash_sha3.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_ipcrypt.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kdf.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kdf_blake2b.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kdf_hkdf_sha256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kdf_hkdf_sha512.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kem.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kem_xwing.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kem_mlkem768.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_kx.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_onetimeauth.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_onetimeauth_poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_pwhash.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_pwhash_argon2i.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_pwhash_argon2id.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_scalarmult.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_scalarmult_curve25519.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_secretbox.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_secretstream_xchacha20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_chacha20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_shorthash.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_shorthash_siphash24.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_sign.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_sign_ed25519.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_salsa20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_verify_16.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_verify_32.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_verify_64.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_xof_shake128.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_xof_shake256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_xof_turboshake128.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_xof_turboshake256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/randombytes.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/randombytes_internal_random.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/randombytes_sysrandom.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/runtime.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/utils.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_box_curve25519xchacha20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_xchacha20.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_ed25519.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_core_ristretto255.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_pwhash_scryptsalsa208sha256.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_scalarmult_ed25519.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_scalarmult_ristretto255.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_secretbox_xchacha20poly1305.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_salsa2012.h \
+  /opt/homebrew/Cellar/libsodium/1.0.22/include/sodium/crypto_stream_salsa208.h \
   /Users/yasha/Desktop/Inventory\ App/src/db/Pool.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/chrono \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/file_clock.h \
@@ -969,7 +1045,6 @@ CMakeFiles/inventory.dir/src/main.cpp.o: \
   /opt/homebrew/Cellar/libpqxx/8.0.2/include/pqxx/array.hxx \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
   /opt/homebrew/Cellar/libpqxx/8.0.2/include/pqxx/connection.hxx \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/list \
@@ -1089,34 +1164,8 @@ CMakeFiles/inventory.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/atomic_unique_lock.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/intrusive_list_view.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_token.h \
-  /Users/yasha/Desktop/Inventory\ App/src/http/App.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/arpa/inet.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/netinet/in.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/socket.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/constrained_ctypes.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/_param.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/arm/_param.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/net/net_kev.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_sa_family_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_socklen_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_iovec_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/netinet6/in6.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/unistd.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_posix_vdisable.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/select.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_select.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uuid_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/csignal \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/signal.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/thread \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/formatter.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/jthread.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_source.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/thread.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/this_thread.h \
-  /Users/yasha/Desktop/Inventory\ App/src/http/Request.hpp \
-  /Users/yasha/Desktop/Inventory\ App/src/http/Response.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/admin.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/auth/guard.hpp \
   /opt/homebrew/Cellar/nlohmann-json/3.12.0/include/nlohmann/json.hpp \
   /opt/homebrew/Cellar/nlohmann-json/3.12.0/include/nlohmann/adl_serializer.hpp \
   /opt/homebrew/Cellar/nlohmann-json/3.12.0/include/nlohmann/detail/abi_macros.hpp \
@@ -1182,4 +1231,69 @@ CMakeFiles/inventory.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/any \
   /opt/homebrew/Cellar/nlohmann-json/3.12.0/include/nlohmann/detail/macro_unscope.hpp \
   /opt/homebrew/Cellar/nlohmann-json/3.12.0/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
-  /Users/yasha/Desktop/Inventory\ App/src/handlers/stock.hpp
+  /Users/yasha/Desktop/Inventory\ App/src/auth/jwt.hpp \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/crypto.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/macros.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/configuration.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/opensslv.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/e_os2.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/opensslconf.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/safestack.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/stack.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/types.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/cryptoerr.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/symhacks.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/cryptoerr_legacy.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/core.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/evp.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/core_dispatch.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/indicator.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/params.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/bn.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/bnerr.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/bio.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/bioerr.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/evperr.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/objects.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/obj_mac.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/asn1.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/asn1err.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/objectserr.h \
+  /opt/homebrew/Cellar/openssl@4/4.1.0/include/openssl/hmac.h \
+  /Users/yasha/Desktop/Inventory\ App/src/http/App.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/arpa/inet.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/netinet/in.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/socket.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/constrained_ctypes.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/_param.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/arm/_param.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/net/net_kev.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_sa_family_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_socklen_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_iovec_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/netinet6/in6.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/unistd.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_posix_vdisable.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/select.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_select.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uuid_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/csignal \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/signal.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/thread \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/formatter.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/jthread.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_source.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/thread.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/this_thread.h \
+  /Users/yasha/Desktop/Inventory\ App/src/http/Request.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/http/Response.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/regex \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/authorization.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/http/RateLimit.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/stock.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/reports.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/pallet.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/packing.hpp \
+  /Users/yasha/Desktop/Inventory\ App/src/handlers/receipts.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/set

@@ -10,10 +10,10 @@ inline void addTxn(Pool &pool,const std::string &type,Request &req, Response &re
         return;
     }
 
-    int site = j["site_id"].get<int>();
-    int mat = j["material_id"].get<int>();
+    int site = j["site_id"].get<int>(),mat = j["material_id"].get<int>();
     double qnty = j["quantity"].get<double>();
-    std::string note = j.value("note", "");
+    std::string note = j.value("note", ""),party = j.value("party", "");
+    if(party.size()>100){ res.error(400,"supplier name is too long (max 100 characters)"); return;}
     if(qnty<=0){ res.error(400,"Quantity must be greater than 0"); return; }
 
     std::string ref = j.value("client_ref","");
@@ -40,8 +40,8 @@ inline void addTxn(Pool &pool,const std::string &type,Request &req, Response &re
         }
     }
 
-    auto r = txn.exec("INSERT INTO stock_txns (site_id, material_id, type, quantity, note, created_by, client_ref) "
-    "VALUES ($1,$2,$3,$4,$5,$6,NULLIF($7,'')::uuid) RETURNING id", pqxx::params{site,mat,type,qnty,note,req.user_id,ref});
+    auto r = txn.exec("INSERT INTO stock_txns (site_id, material_id, type, quantity, note, party, created_by, client_ref) "
+    "VALUES ($1,$2,$3,$4,$5,NULLIF($6,''),$7,NULLIF($8,'')::uuid) RETURNING id", pqxx::params{site,mat,type,qnty,note,party,req.user_id,ref});
     txn.commit();
     res.json(201,{{"id",r[0][0].as<long long>()}});
 }
@@ -151,7 +151,7 @@ inline void registerStockRoutes(App &app, Pool &pool){
             "SELECT t.id, t.material_id, m.name AS material, m.unit, t.type, t.quantity, "
             "t.txn_date::text AS txn_date, t.note, t.created_by, u.name AS by_name, "
             "t.created_at::text AS created_at, "
-            "(t.transfer_ref IS NULL AND t.production_id IS NULL AND now() - t.created_at <= edit_window()) AS can_edit "
+            "(t.transfer_ref IS NULL AND t.production_id IS NULL AND t.packing_id IS NULL AND now() - t.created_at <= edit_window()) AS can_edit "
             "FROM stock_txns t JOIN materials m ON m.id = t.material_id JOIN users u ON u.id = t.created_by "
             "WHERE t.site_id = $1 AND t.txn_date >= $2::date AND t.txn_date <= $3::date "
             "ORDER BY t.created_at DESC, t.id DESC LIMIT $4", pqxx::params{id,from,to,limit});

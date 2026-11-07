@@ -1,30 +1,3 @@
-// #include <pqxx/pqxx>
-// #include <cstdlib>
-// #include <iostream>
-
-// using namespace std;    
-
-// int main(){
-//     const char* url= getenv("DATABASE_URL");
-//     if(!url){
-//         cerr<<"ERROR: Fetching Databse URL\n";
-//         return 1;
-//     }
-
-//     try{
-//         pqxx::connection conn(url);
-//         pqxx::work tx(conn);
-
-//         auto r = tx.exec("SELECT id, name FROM sites WHERE id = $1", pqxx::params{1});
-//         for(auto x:r)
-//             cout<<x[0].as<int>()<<"  "<<x[1].as<string>()<<'\n';
-//         tx.commit();
-//     }catch(const pqxx::sql_error &e){
-//         cerr<<"ERROR Occured: DB/SQL error: "<<e.what()<<'\n';
-//     }catch(const exception &e){
-//         cerr<<"ERROR Occurec: "<<e.what()<<'\n';
-//     }
-// }
 #include <cstdlib>
 #include <iostream>
 
@@ -36,6 +9,8 @@
 #include "http/App.hpp"
 #include "handlers/reports.hpp"
 #include "handlers/pallet.hpp"
+#include "handlers/packing.hpp"
+#include "handlers/receipts.hpp"
 
 int main(int argc, char** argv) {
     pw::init();
@@ -63,5 +38,7 @@ int main(int argc, char** argv) {
     registerStockRoutes(app, pool);
     registerAdminRoutes(app, pool);
     registerPalletRoutes(app, pool);
+    registerPackingRoutes(app, pool);
+    registerReceiptRoutes(app, pool);
     app.listen(port);
 }

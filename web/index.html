@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c5b45">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Western Agencies</title>
+<style>
+:root{--bg:#eceee9;--surf:#fbfbf9;--ink:#15211c;--mute:#5d6b64;--line:#cfd5ce;--pine:#1c5b45;--onpine:#fff;--warn:#a96a00;--bad:#b3261e}
+@media(prefers-color-scheme:dark){:root{--bg:#111815;--surf:#19221e;--ink:#e9eeea;--mute:#98a69e;--line:#2d3a34;--pine:#5fbf9a;--onpine:#0d1612;--warn:#e3b04b;--bad:#f2928b}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font:16px/1.45 "Avenir Next","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:env(safe-area-inset-top,0) 0 calc(76px + env(safe-area-inset-bottom,0))}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surf);position:sticky;top:0;z-index:5}
+header b{font-size:18px}
+header select{flex:1;min-width:0}
+header button{background:none;border:0;color:var(--mute);font:inherit;padding:8px}
+.logo{height:34px;width:auto;display:block}
+main{max-width:560px;margin:0 auto;padding:6px 16px 24px}
+h2{font-size:15px;font-weight:700;color:var(--mute);margin:22px 0 6px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.row .n{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px;white-space:nowrap}
+.row .u{font-size:14px;font-weight:500;color:var(--mute);margin-left:4px;letter-spacing:0}
+.row small{display:block;color:var(--mute);font-size:13px}
+.row .sm{margin:8px 6px 0 0}
+label{display:block;font-weight:600;margin:14px 0 5px}
+input,select{width:100%;font:inherit;padding:13px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--surf);color:var(--ink)}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--pine);outline-offset:1px}
+button.go{width:100%;margin-top:20px;padding:15px;font:inherit;font-weight:700;border:0;border-radius:8px;background:var(--pine);color:var(--onpine)}
+button.go:disabled{opacity:.45}
+button.sm{font:inherit;font-size:14px;font-weight:600;padding:7px 12px;border-radius:6px;border:1.5px solid var(--pine);background:none;color:var(--pine)}
+.pv{margin-top:14px;padding:12px 14px;border-left:4px solid var(--pine);background:var(--surf);border-radius:0 8px 8px 0}
+.pv.bad{border-color:var(--bad)}
+.pv b{font-size:20px;font-variant-numeric:tabular-nums}
+.mu{color:var(--mute)}
+.tag{font-size:12px;font-weight:700;padding:2px 7px;border-radius:5px;border:1.5px solid var(--mute);color:var(--mute);margin-left:6px}
+.seg{display:flex;margin-top:12px}
+.seg button{flex:1;padding:11px;font:inherit;font-weight:600;border:1.5px solid var(--pine);background:none;color:var(--pine)}
+.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0;border-left:0}
+.seg button.on{background:var(--pine);color:var(--onpine)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--surf);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0)}
+nav button{flex:1;padding:14px 2px;font:inherit;font-size:13px;font-weight:600;border:0;background:none;color:var(--mute);border-top:3px solid transparent}
+nav button.on{color:var(--pine);border-top-color:var(--pine)}
+#t{position:fixed;left:16px;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0));max-width:528px;margin:0 auto;padding:13px 16px;border-radius:8px;background:var(--ink);color:var(--bg);font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+#t.show{opacity:1}#t.bad{background:var(--bad);color:#fff}
+.login{max-width:400px;margin:0 auto;padding:44px 20px}
+.login .logo{height:64px;margin-bottom:14px}
+.login h1{font-size:30px;margin:0 0 4px;letter-spacing:-.5px}
+@media(prefers-reduced-motion:reduce){#t{transition:none}}
+.pk{display:grid;grid-template-columns:1fr 104px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.pk small{display:block;color:var(--mute);font-size:13px}
+.pk input{text-align:right;font-size:20px;font-weight:700}
+.rb{display:grid;grid-template-columns:1fr 100px 40px;gap:8px;margin-top:8px}
+.ln{display:grid;grid-template-columns:1fr 96px 40px;gap:8px;margin-top:8px}
+.ln .sm{padding:0}
+.sg{color:var(--mute);font-weight:600;margin-right:2px}
+.rb .sm{padding:0}
+.pw{position:relative}.pw input{padding-right:76px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--pine);font:inherit;font-weight:700;padding:8px 10px}
+
+nav{overflow-x:auto}
+nav button{flex:1 0 auto;padding:14px 12px;font-size:13px;white-space:nowrap}
+.ck{display:flex;align-items:center;gap:10px;font-weight:500;margin:8px 0}
+.ck input{width:22px;height:22px;padding:0;margin:0}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="t" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const num=x=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:3});
+const uuid=()=>"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c=="x"?r:(r&3|8)).toString(16)});
+
+// SET ONCE: server address (users never see it). Use "" if this page is served by the API server itself.
+// const API_URL="http://localhost:8080";
+const API_URL=(location.hostname==="127.0.0.1"||location.hostname==="localhost")?"http://localhost:8080":"/api";
+const LOGO="logo.png";
+const logo=`<img class="logo" src="${LOGO}" alt="" onerror="this.remove()">`;
+
+const S={api:API_URL,token:"",user:null,sites:[],site:null,tab:"home",pm:"made",ref:null};
+try{Object.assign(S,JSON.parse(localStorage.getItem("ps")||"{}"))}catch(e){}
+S.api=API_URL;
+const keep=()=>{try{localStorage.setItem("ps",JSON.stringify({token:S.token,user:S.user,sites:S.sites,site:S.site}))}catch(e){}};
+const ref=()=>S.ref||(S.ref=uuid()); 
+const isAdmin=()=>S.user&&S.user.role==="admin";
+
+async function call(method,path,body){
+  const r=await fetch(S.api+path,{method,headers:{"Content-Type":"application/json",...(S.token?{Authorization:"Bearer "+S.token}:{})},body:body?JSON.stringify(body):undefined});
+  let j={};try{j=await r.json()}catch(e){}
+  if(r.status===401&&S.token){out();throw new Error("Session ended. Log in again.")}
+  if(!r.ok)throw new Error(j.error||("Server error "+r.status));
+  return j;
+}
+function toast(t,bad){const d=$("#t");d.textContent=t;d.className=bad?"show bad":"show";clearTimeout(toast.h);toast.h=setTimeout(()=>d.className="",3800)}
+function out(){S.token="";S.user=null;keep();draw()}
+
+const NETERR=["Failed to fetch","Load failed","NetworkError when attempting to fetch resource."];
+const fail=e=>toast(NETERR.includes(e.message)?"Could not reach the server, so this was probably NOT saved. Check your internet connection, then try again.":e.message,true);
+
+function loginView(){
+  $("#root").innerHTML=`<div class="login">${logo}<h1>Western Agencies</h1>
+  <label for="u">Username</label><input id="u" autocomplete="username" autocapitalize="none">
+  <label for="p">Password</label><div class="pw"><input id="p" type="password" autocomplete="current-password"><button type="button" id="sw" aria-pressed="false">Show</button></div>
+  <button class="go" id="lg">Log in</button></div>`;
+
+  $("#sw").onclick=()=>{const i=$("#p"),show=i.type==="password";i.type=show?"text":"password";$("#sw").textContent=show?"Hide":"Show";$("#sw").setAttribute("aria-pressed",show)};
+  $("#p").onkeydown=e=>{if(e.key==="Enter")$("#lg").click()};
+  $("#lg").onclick=async()=>{
+    try{
+      const r=await call("POST","/login",{username:$("#u").value.trim(),password:$("#p").value});
+      S.token=r.token;S.user=r.user;
+      const me=await call("GET","/me");
+      S.sites=me.sites;S.site=me.sites.some(s=>s.id===S.site)?S.site:(me.sites[0]||{}).id||null;
+      S.tab="home";keep();draw();
+    }catch(e){fail(e)}
+  };
+}
+
+async function recipesPanel(){
+  const [sp,pt,ms]=await Promise.all([call("GET","/packing-specs?all=1"),call("GET","/pallet-types"),call("GET","/materials")]);
+  const mopts=ms.filter(m=>String(m.unit).toUpperCase()!=="CFT").map(m=>`<option value="${m.id}">${esc(m.name)} (${esc(m.unit)})</option>`).join("");
+  let edit=null;
+  $("#m").insertAdjacentHTML("beforeend",`<h2>Packing recipes</h2>
+  ${sp.map(s=>`<div class="row"><div>${esc(s.name)}${s.is_active?"":'<span class="tag">Off</span>'}<small>${esc(s.pallet_type)}: ${s.items.map(i=>num(i.qty_per_pallet)+" "+esc(i.unit)+" "+esc(i.material)).join(", ")}</small></div>
+    <div style="text-align:right"><button class="sm" data-ed="${s.id}">Edit</button> <button class="sm" data-rs="${s.id}" data-v="${s.is_active?1:0}">${s.is_active?"Switch off":"Switch on"}</button></div></div>`).join("")||'<p class="mu">No recipes yet.</p>'}
+  <h2 id="rcTitle">New recipe</h2>
+  <label for="rcName">Name (for example Junglee – export wrap)</label><input id="rcName">
+  <label for="rcPt">Pallet size</label><select id="rcPt">${pt.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")}</select>
+  <label>Materials for ONE pallet</label><div id="rcRows"></div>
+  <button class="sm" id="rcAdd" type="button" style="margin-top:10px">Add another material</button>
+  <button class="go" id="rcSave">Save recipe</button>
+  <h2>Add a material (wood, strap, film...)</h2>
+  <label for="mnName">Name</label><input id="mnName"><label for="mnUnit">Unit (CFT for wood; for others use a small unit: kg, metre, pcs)</label><input id="mnUnit">
+  <button class="go" id="mnSave">Add material</button>`);
+  const addRow=(m,q)=>{
+    const d=document.createElement("div");d.className="rb";
+    d.innerHTML=`<select class="rm">${mopts}</select><input class="rq" type="number" inputmode="decimal" min="0" step="any" placeholder="per pallet"><button class="sm" type="button" aria-label="Remove">×</button>`;
+    if(m)d.querySelector(".rm").value=m;if(q)d.querySelector(".rq").value=q;
+    d.querySelector("button").onclick=()=>d.remove();$("#rcRows").appendChild(d);
+  };
+  addRow();
+  $("#rcAdd").onclick=()=>addRow();
+  document.querySelectorAll("[data-ed]").forEach(b=>b.onclick=()=>{
+    const s=sp.find(x=>x.id==b.dataset.ed);edit=s.id;
+    $("#rcTitle").textContent="Edit recipe";$("#rcName").value=s.name;$("#rcPt").value=s.pallet_type_id;$("#rcPt").disabled=true;
+    $("#rcRows").innerHTML="";s.items.forEach(i=>addRow(i.material_id,i.qty_per_pallet));
+    $("#rcSave").textContent="Update recipe";$("#rcName").scrollIntoView({behavior:"smooth"});
+  });
+  document.querySelectorAll("[data-rs]").forEach(b=>b.onclick=async()=>{
+    try{await call("PUT",`/packing-specs/${b.dataset.rs}`,{is_active:b.dataset.v!=="1"});toast("Recipe updated.");draw()}catch(e){fail(e)}
+   });
+  $("#rcSave").onclick=async()=>{
+    const items=[...document.querySelectorAll("#rcRows .rb")].map(r=>({material_id:+r.querySelector(".rm").value,qty_per_pallet:parseFloat(r.querySelector(".rq").value)}));
+    const body={name:$("#rcName").value.trim(),items};
+    try{
+      if(edit)await call("PUT",`/packing-specs/${edit}`,body);
+      else await call("POST","/packing-specs",{...body,pallet_type_id:+$("#rcPt").value});
+      toast("Recipe saved.");draw();
+    }catch(e){fail(e)}
+  };
+  $("#mnSave").onclick=async()=>{
+    try{await call("POST","/materials",{name:$("#mnName").value.trim(),unit:$("#mnUnit").value.trim()});toast("Material added.");draw()}catch(e){fail(e)}
+  };
+}
+
+function draw(){
+  if(!S.token)return loginView();
+  const tabs=[["home","Stock"],["add","Add stock"],["prod","Production"],["log","Log"]].concat(isAdmin()?[["setup","Setup"],["users","Users"]]:[]);
+  $("#root").innerHTML=`<header>${logo}<b>Western Agencies</b>
+    <select id="si" aria-label="Site">${S.sites.map(s=>`<option value="${s.id}" ${s.id===S.site?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
+    <button id="lo">Log out</button></header><main id="m"></main>
+    <nav>${tabs.map(t=>`<button data-t="${t[0]}" class="${S.tab===t[0]?"on":""}">${t[1]}</button>`).join("")}</nav>`;
+  $("#si").onchange=e=>{S.site=+e.target.value;keep();draw()};
+  $("#lo").onclick=out;
+  document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;S.ref=null;draw()});
+  if(!S.site&&!["setup","users"].includes(S.tab)){$("#m").innerHTML=`<p>No site is assigned to you. Ask the admin to add you to a site.</p>`;return}
+  V[S.tab]().catch(fail);
+}
+const row=(a,b,u)=>`<div class="row"><div>${esc(a)}</div><div class="n">${num(b)}<span class="u">${esc(u)}</span></div></div>`;
+const opts=(arr,f)=>arr.map(f).join("");
+const woodOf=st=>st.filter(m=>String(m.unit).toUpperCase()==="CFT");
+const noSizes=`<p>No pallet sizes yet. The admin adds them under Setup.</p>`;
+
+
+async function prodMade(){
+  const [pt,st,h]=await Promise.all([call("GET","/pallet-types"),call("GET",`/sites/${S.site}/stock`),call("GET",`/sites/${S.site}/pallet-production`)]);
+  const wood=woodOf(st);
+  if(!pt.length||!wood.length){$("#pm").innerHTML=!pt.length?noSizes:`<p>No wood material (unit CFT) exists yet. The admin adds it under Setup.</p>`;return}
+  $("#pm").innerHTML=`<label for="pt">Pallet size</label><select id="pt">${opts(pt,p=>`<option value="${p.id}" data-c="${p.cft_per_pallet==null?"":p.cft_per_pallet}">${esc(p.name)}${p.size?" ("+esc(p.size)+")":""}</option>`)}</select>
+  <label for="wd">Wood to use</label><select id="wd">${opts(wood,w=>`<option value="${w.material_id}" data-b="${w.balance}">${esc(w.name)}</option>`)}</select>
+  <label for="q">Pallets made</label><input id="q" type="number" inputmode="numeric" min="1" step="1">
+  <label for="n">Note (optional)</label><input id="n">
+  <div class="pv" id="pv"></div><button class="go" id="go">Save production</button>
+  <h2>Recent production</h2>${h.slice(0,8).map(r=>`<div class="row"><div>${esc(r.pallet_type)}${r.reversed?'<span class="tag">Reversed</span>':""}<small>${esc(r.date)} · ${esc(r.by)}</small>${isAdmin()&&!r.reversed?`<button class="sm" data-r="${r.id}">Reverse</button>`:""}</div><div class="n">${num(r.quantity)}<span class="u">pcs · ${num(r.cft_consumed)} CFT</span></div></div>`).join("")||'<p class="mu">Nothing yet.</p>'}`;
+  const calc=()=>{
+    const o=$("#pt").selectedOptions[0],w=$("#wd").selectedOptions[0],q=+$("#q").value,c=parseFloat(o.dataset.c),b=+w.dataset.b;
+    const pv=$("#pv"),go=$("#go");
+    if(isNaN(c)){pv.className="pv bad";pv.innerHTML="No wood factor is set for this size. Ask the admin to set one under Setup.";go.disabled=true;return}
+    const need=Math.round(c*(q||0)*1000)/1000,short=need>b;
+    pv.className="pv"+(short?" bad":"");
+    pv.innerHTML=`${num(c)} CFT per pallet. This run uses <b>${num(need)} CFT</b> of ${num(b)} CFT in stock.${short?"<br>Not enough wood for this many pallets.":""}`;
+    go.disabled=!(q>0)||short;
+  };
+  ["pt","wd","q"].forEach(i=>$("#"+i).oninput=calc);calc();
+  $("#go").onclick=async()=>{
+    $("#go").disabled=true;
+    try{
+      const r=await call("POST","/pallet-production",{site_id:S.site,pallet_type_id:+$("#pt").value,wood_material_id:+$("#wd").value,quantity:+$("#q").value,note:$("#n").value,client_ref:ref()});
+      S.ref=null;toast(`Saved. Used ${num(r.cft_consumed)} CFT of wood.`);draw();
+    }catch(e){fail(e);calc()}
+  };
+  document.querySelectorAll("[data-r]").forEach(b=>b.onclick=async()=>{
+    const why=prompt("Reason for reversing this run (at least 5 letters)");
+    if(!why)return;
+    try{await call("POST",`/admin/pallet-production/${b.dataset.r}/reverse`,{reason:why});toast("Run reversed. Wood and pallets restored.");draw()}catch(e){fail(e)}
+  });
+}
+
+async function prodSold(){
+  const [pt,pl]=await Promise.all([call("GET","/pallet-types"),call("GET",`/sites/${S.site}/pallets`)]);
+  if(!pt.length){$("#pm").innerHTML=noSizes;return}
+  const bal=Object.fromEntries(pl.map(p=>[p.pallet_type_id,p.balance]));
+  $("#pm").innerHTML=`<label for="pt">Pallet size</label><select id="pt">${opts(pt,p=>`<option value="${p.id}">${esc(p.name)} (${num(bal[p.id]||0)} in stock)</option>`)}</select>
+  <label for="q">Quantity sold</label><input id="q" type="number" inputmode="numeric" min="1" step="1">
+  <label for="p">Customer (optional)</label><input id="p"><label for="n">Note (optional)</label><input id="n">
+  <button class="go" id="go">Record pallets sold</button>`;
+  $("#go").onclick=async()=>{
+    $("#go").disabled=true;
+    try{
+      await call("POST","/pallet-usage",{site_id:S.site,pallet_type_id:+$("#pt").value,quantity:Math.round(+$("#q").value),party:$("#p").value,note:$("#n").value,client_ref:ref()});
+      S.ref=null;toast("Pallets recorded as sold.");draw();
+    }catch(e){fail(e);$("#go").disabled=false}
+  };
+}
+
+async function prodPacked(){
+  const [sp,st,h]=await Promise.all([call("GET","/packing-specs"),call("GET",`/sites/${S.site}/stock`),call("GET",`/sites/${S.site}/packing`)]);
+  const bal=Object.fromEntries(st.map(m=>[m.material_id,m.balance]));
+  $("#pm").innerHTML=`<h2>Pallets packed today</h2>
+  ${sp.length?sp.map(s=>`<div class="pk"><div>${esc(s.name)}<small>${esc(s.pallet_type)} · ${s.items.map(i=>num(i.qty_per_pallet)+" "+esc(i.unit)+" "+esc(i.material)).join(", ")}</small></div><input type="number" inputmode="numeric" min="0" step="1" data-s="${s.id}" placeholder="0" aria-label="${esc(s.name)}"></div>`).join("")+`<div class="pv" id="pv"></div><label for="n">Note (optional)</label><input id="n"><button class="go" id="go">Save packing</button>`:'<p class="mu">No packing recipes yet. The admin adds them under Setup.</p>'}
+  <h2>Recent packing</h2>${h.map(r=>`<div class="row"><div>${esc(r.spec)}${r.reversed?'<span class="tag">Reversed</span>':""}<small>${esc(r.date)} · ${esc(r.by)} · ${r.lines.map(l=>num(l.consumed)+" "+esc(l.unit)+" "+esc(l.name)).join(", ")}</small>${isAdmin()&&!r.reversed?`<button class="sm" data-rv="${r.id}">Reverse</button>`:""}</div><div class="n">${num(r.pallets)}<span class="u">pallets</span></div></div>`).join("")||'<p class="mu">Nothing yet.</p>'}`;
+  if(sp.length){
+    const calc=()=>{
+      const use={};
+      document.querySelectorAll("[data-s]").forEach(i=>{
+        const q=Math.round(+i.value)||0;if(q<=0)return;
+        sp.find(s=>s.id==i.dataset.s).items.forEach(it=>{
+          const u=use[it.material_id]||(use[it.material_id]={n:it.material,u:it.unit,v:0});u.v+=it.qty_per_pallet*q});
+      });
+      const rows=Object.entries(use),short=rows.some(([id,u])=>u.v>(bal[id]||0)+1e-9),pv=$("#pv");
+      pv.className="pv"+(short?" bad":"");
+      pv.innerHTML=rows.length?rows.map(([id,u])=>`${esc(u.n)}: <b>${num(u.v)}</b> ${esc(u.u)} <span class="mu">(in stock ${num(bal[id]||0)})</span>`).join("<br>")+(short?"<br>Not enough stock for this packing.":""):"Enter how many pallets were packed for each recipe.";
+      $("#go").disabled=!rows.length||short;
+    };
+    document.querySelectorAll("[data-s]").forEach(i=>i.oninput=calc);calc();
+    $("#go").onclick=async()=>{
+      const entries=[...document.querySelectorAll("[data-s]")].map(i=>({spec_id:+i.dataset.s,quantity:Math.round(+i.value)})).filter(e=>e.quantity>0);
+      $("#go").disabled=true;
+      try{await call("POST","/packing",{site_id:S.site,entries,note:$("#n").value,client_ref:ref()});S.ref=null;toast("Packing saved. Stock updated.");draw()}
+      catch(e){fail(e);calc()}
+    };
+  }
+  document.querySelectorAll("[data-rv]").forEach(b=>b.onclick=async()=>{
+    const why=prompt("Reason for reversing this packing (at least 5 letters)");
+    if(!why)return;
+    try{await call("POST",`/admin/packing/${b.dataset.rv}/reverse`,{reason:why});toast("Packing reversed. Materials restored.");draw()}catch(e){fail(e)}
+  });
+}
+
+const seg=(list,cur)=>`<div class="seg">${list.map(([k,t])=>`<button data-pm="${k}" class="${cur===k?"on":""}">${t}</button>`).join("")}</div>`;
+
+const V={
+async home(){
+  const [st,pl]=await Promise.all([call("GET",`/sites/${S.site}/stock`),call("GET",`/sites/${S.site}/pallets`)]);
+  $("#m").innerHTML=`<h2>Wood and materials</h2>${st.map(m=>row(m.name,m.balance,m.unit)).join("")||'<p class="mu">No materials yet.</p>'}
+  <h2>Pallets</h2>${pl.map(p=>row(p.name,p.balance,"pcs")).join("")||'<p class="mu">No pallet sizes yet.</p>'}`;
+},
+
+async add(){
+  const [ms,pt]=await Promise.all([call("GET","/materials"),call("GET","/pallet-types")]);
+  if(!ms.length&&!pt.length){$("#m").innerHTML=`<p>Nothing to receive yet. The admin adds materials and pallet sizes under Setup.</p>`;return}
+  let sup=[];try{sup=JSON.parse(localStorage.getItem("sup")||"[]")}catch(e){}
+  const itemOpts=`<option value="">Choose item</option>`+
+    (ms.length?`<optgroup label="Wood and materials">${opts(ms,m=>`<option value="m${m.id}">${esc(m.name)} (${esc(m.unit)})</option>`)}</optgroup>`:"")+
+    (pt.length?`<optgroup label="Finished pallets">${opts(pt,p=>`<option value="p${p.id}">${esc(p.name)} (pcs)</option>`)}</optgroup>`:"");
+  $("#m").innerHTML=`<h2>Delivery details</h2>
+  <label for="sp">Supplier</label><input id="sp" list="spl" autocomplete="off"><datalist id="spl">${sup.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>
+  <label for="vh">Truck / vehicle number (optional)</label><input id="vh" autocapitalize="characters" autocomplete="off">
+  <h2>What came in this truck</h2><div id="lns"></div>
+  <button class="sm" id="more" type="button" style="margin-top:10px">Add another item</button>
+  <label for="n">Note (optional)</label><input id="n">
+  <div class="pv" id="pv"></div><button class="go" id="go">Add to stock</button>`;
+  const addLine=()=>{
+    const d=document.createElement("div");d.className="ln";
+    d.innerHTML=`<select class="li" aria-label="Item">${itemOpts}</select><input class="lq" type="number" inputmode="decimal" min="0" step="any" placeholder="Qty" aria-label="Quantity"><button class="sm" type="button" aria-label="Remove">×</button>`;
+    d.querySelector("button").onclick=()=>{if(document.querySelectorAll(".ln").length>1){d.remove();calc()}else{d.querySelector(".li").value="";d.querySelector(".lq").value="";calc()}};
+    d.querySelector(".li").oninput=calc;d.querySelector(".lq").oninput=calc;
+    $("#lns").appendChild(d);
+  };
+  const read=()=>[...document.querySelectorAll(".ln")].map(r=>({v:r.querySelector(".li").value,q:parseFloat(r.querySelector(".lq").value)})).filter(x=>x.v||!isNaN(x.q));
+  function calc(){
+    const L=read(),bad=L.some(x=>!x.v||!(x.q>0)||(x.v[0]==="p"&&!Number.isInteger(x.q)));
+    const ids=L.map(x=>x.v),dup=new Set(ids).size!==ids.length;
+    const pv=$("#pv");pv.className="pv"+(bad||dup?" bad":"");
+    pv.innerHTML=!L.length?"Add the items and quantities that came in.":dup?"The same item is listed twice. Add the amounts together.":bad?"Every line needs an item and a quantity (pallets in whole numbers).":`<b>${L.length}</b> item${L.length>1?"s":""} will be added to stock.`;
+    $("#go").disabled=!L.length||bad||dup;
+  }
+  addLine();$("#more").onclick=()=>{addLine();calc()};calc();
+  $("#go").onclick=async()=>{
+    const supplier=$("#sp").value.trim();
+    if(!supplier){toast("Enter the supplier name.",true);$("#sp").focus();return}
+    const items=read().map(x=>({kind:x.v[0]==="p"?"pallet":"material",id:+x.v.slice(1),quantity:x.q}));
+    $("#go").disabled=true;
+    try{
+      const r=await call("POST","/receipts",{site_id:S.site,supplier,vehicle:$("#vh").value.trim(),note:$("#n").value.trim(),items,client_ref:ref()});
+      try{localStorage.setItem("sup",JSON.stringify([supplier,...sup.filter(x=>x!==supplier)].slice(0,30)))}catch(e){}
+      S.ref=null;toast(r.duplicate?"Already saved.":`Saved. ${items.length} item${items.length>1?"s":""} added to stock.`);draw();
+    }catch(e){fail(e);calc()}
+  };
+},
+
+async users(){
+  const [us,rq]=await Promise.all([call("GET","/users"),call("GET","/user-requests?status=PENDING")]);
+  const sites=S.sites;
+  const gen=()=>{const a="abcdefghjkmnpqrstuvwxyz23456789";let s="";crypto.getRandomValues(new Uint8Array(8)).forEach(v=>s+=a[v%a.length]);return s};
+  $("#m").innerHTML=`${rq.length?`<h2>Waiting for approval</h2>${rq.map(r=>`<div class="row"><div>${esc(r.name)}<small>${esc(r.username)} · ${esc(r.site)}</small><button class="sm" data-ap="${r.id}">Approve</button><button class="sm" data-rj="${r.id}">Reject</button></div></div>`).join("")}`:""}
+  <h2>People</h2>${us.map(u=>`<div class="row"><div>${esc(u.name)}${u.role==="admin"?'<span class="tag">Admin</span>':""}${u.is_active?"":'<span class="tag">Off</span>'}
+    <small>${esc(u.username)} · ${u.role==="admin"?"all sites":(u.sites.map(s=>esc(s.name)).join(", ")||"no site yet")}</small>
+    <button class="sm" data-pw="${u.id}" data-n="${esc(u.name)}">New password</button>
+    ${u.id!==S.user.id?`<button class="sm" data-ac="${u.id}" data-v="${u.is_active?1:0}">${u.is_active?"Switch off":"Switch on"}</button>`:""}
+    ${u.role==="supervisor"?`<button class="sm" data-st="${u.id}">Sites</button>`:""}</div></div>`).join("")}
+  <div id="stBox"></div>
+  <h2>Add a supervisor</h2>
+  <label for="uN">Full name</label><input id="uN">
+  <label for="uU">Username (letters, digits, _ or .)</label><input id="uU" autocapitalize="none" autocomplete="off">
+  <label for="uP">Password (at least 6 characters)</label><input id="uP" autocomplete="off">
+  <button class="sm" id="uG" type="button" style="margin-top:8px">Generate password</button>
+  <label>Sites this person can use</label>
+  ${sites.map(s=>`<label class="ck"><input type="checkbox" value="${s.id}" data-us>${esc(s.name)}</label>`).join("")}
+  <button class="go" id="uGo">Create login</button>`;
+
+  $("#uG").onclick=()=>{$("#uP").value=gen()};
+  $("#uGo").onclick=async()=>{
+    const site_ids=[...document.querySelectorAll("[data-us]:checked")].map(c=>+c.value);
+    const name=$("#uN").value.trim(),username=$("#uU").value.trim(),password=$("#uP").value;
+    if(!site_ids.length){toast("Pick at least one site.",true);return}
+    $("#uGo").disabled=true;
+    try{
+      await call("POST","/users",{name,username,password,role:"supervisor",site_ids});
+      alert(`Login created.\n\nUsername: ${username}\nPassword: ${password}\n\nShare these with ${name}.`);
+      draw();
+    }catch(e){fail(e);$("#uGo").disabled=false}
+  };
+
+  document.querySelectorAll("[data-ap]").forEach(b=>b.onclick=async()=>{
+    try{await call("POST",`/user-requests/${b.dataset.ap}/approve`);toast("Approved. They can log in now.");draw()}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-rj]").forEach(b=>b.onclick=async()=>{
+    const why=prompt("Reason for rejecting (optional)")||"";
+    try{await call("POST",`/user-requests/${b.dataset.rj}/reject`,{reason:why});toast("Request rejected.");draw()}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-pw]").forEach(b=>b.onclick=async()=>{
+    const p=prompt(`New password for ${b.dataset.n} (at least 6 characters)`);
+    if(!p)return;
+    try{await call("POST",`/users/${b.dataset.pw}/reset-password`,{password:p});alert(`Password changed.\n\nNew password for ${b.dataset.n}: ${p}`)}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-ac]").forEach(b=>b.onclick=async()=>{
+    const off=b.dataset.v==="1";
+    if(off&&!confirm("Switch this person off? They will not be able to log in."))return;
+    try{await call("POST",`/users/${b.dataset.ac}/${off?"deactivate":"activate"}`);toast(off?"Switched off.":"Switched on.");draw()}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{
+    const u=us.find(x=>x.id==b.dataset.st),has=new Set(u.sites.map(s=>s.id)),box=$("#stBox");
+    box.innerHTML=`<h2>Sites for ${esc(u.name)}</h2>${sites.map(s=>`<label class="ck"><input type="checkbox" value="${s.id}" ${has.has(s.id)?"checked":""}>${esc(s.name)}</label>`).join("")}<button class="go" id="stSave">Save sites</button>`;
+    box.scrollIntoView({behavior:"smooth"});
+    $("#stSave").onclick=async()=>{
+      try{
+        for(const s of sites){
+          const want=box.querySelector(`input[value="${s.id}"]`).checked;
+          if(want&&!has.has(s.id))await call("POST",`/users/${u.id}/sites`,{site_id:s.id});
+          if(!want&&has.has(s.id))await call("DELETE",`/users/${u.id}/sites/${s.id}`);
+        }
+        toast("Sites updated.");draw();
+      }catch(e){fail(e)}
+    };
+  });
+},
+
+async prod(){
+  $("#m").innerHTML=seg([["made","Made"],["packed","Packed"],["sold","Sold"]],S.pm)+`<div id="pm"></div>`;
+  document.querySelectorAll("[data-pm]").forEach(b=>b.onclick=()=>{S.pm=b.dataset.pm;S.ref=null;draw()});
+  await ({made:prodMade,packed:prodPacked,sold:prodSold}[S.pm]||prodMade)();
+},
+
+async log(){
+  const x=await call("GET",`/sites/${S.site}/log?limit=60`);
+  const L={IN:"Received",USAGE:"Used",OUT:"Sold",PRODUCED:"Made",ADJUST_PLUS:"Correction",ADJUST_MINUS:"Correction",ADMIN_PLUS:"Correction",ADMIN_MINUS:"Correction",TRANSFER_IN:"Transfer in",TRANSFER_OUT:"Transfer out"};
+  const plus=t=>["IN","PRODUCED","ADJUST_PLUS","ADMIN_PLUS","TRANSFER_IN"].includes(t);
+  $("#m").innerHTML=`<h2>Recent entries</h2>${x.map(t=>`<div class="row"><div>${esc(t.item)}<small>${L[t.type]||esc(t.type)} · ${esc(t.date)}${t.party?" · "+esc(t.party):""}${t.note?" · "+esc(t.note):""}</small>${t.editable?`<button class="sm" data-e="${t.id}" data-k="${t.kind}" data-q="${t.quantity}">Edit</button><button class="sm" data-d="${t.id}" data-k="${t.kind}">Delete</button>`:""}</div><div class="n"><span class="sg">${plus(t.type)?"+":"−"}</span>${num(t.quantity)}<span class="u">${esc(t.unit)}</span></div></div>`).join("")||'<p class="mu">Nothing yet.</p>'}
+  <p class="mu">You can change or delete your own entry for one hour only.</p>`;
+  const path=k=>k==="pallet"?"/pallet-txns/":"/txns/";
+  document.querySelectorAll("[data-e]").forEach(b=>b.onclick=async()=>{
+    const v=prompt("New quantity",b.dataset.q);
+    if(!v)return;
+    try{await call("PUT",path(b.dataset.k)+b.dataset.e,{quantity:b.dataset.k==="pallet"?Math.round(+v):parseFloat(v)});toast("Entry changed.");draw()}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-d]").forEach(b=>b.onclick=async()=>{
+    if(!confirm("Delete this entry?"))return;
+    try{await call("DELETE",path(b.dataset.k)+b.dataset.d);toast("Entry deleted.");draw()}catch(e){fail(e)}
+  });
+},
+
+async setup(){
+  const pt=await call("GET","/pallet-types?all=1");
+  $("#m").innerHTML=`<h2>Pallet sizes and wood per pallet</h2>${pt.map(p=>`<div class="row"><div>${esc(p.name)}${p.is_active?"":'<span class="tag">Off</span>'}<small>${esc(p.size||"No size noted")}</small></div>
+    <div style="text-align:right"><div class="n">${p.cft_per_pallet==null?"–":num(p.cft_per_pallet)}<span class="u">CFT</span></div>
+    <button class="sm" data-id="${p.id}" data-n="${esc(p.name)}">Change factor</button><button class="sm" data-a="${p.id}" data-on="${p.is_active?1:0}">${p.is_active?"Switch off":"Switch on"}</button></div></div>`).join("")||'<p class="mu">No sizes yet.</p>'}
+  <h2>Add a size</h2><label for="nm">Name</label><input id="nm"><label for="sz">Size (optional, for example 1200 x 800 x 144 mm)</label><input id="sz">
+  <label for="cf">Wood needed per pallet (CFT)</label><input id="cf" type="number" inputmode="decimal" min="0" step="any">
+  <button class="go" id="go">Add size</button>`;
+  document.querySelectorAll("[data-id]").forEach(b=>b.onclick=async()=>{
+    const v=prompt(`New CFT per pallet for ${b.dataset.n}. It applies from today; earlier production keeps its old factor.`);
+    if(v==null||v.trim()==="")return;
+    try{await call("POST",`/pallet-types/${b.dataset.id}/cft`,{cft_per_pallet:parseFloat(v)});toast("Factor changed.");draw()}catch(e){fail(e)}
+  });
+  document.querySelectorAll("[data-a]").forEach(b=>b.onclick=async()=>{
+    try{await call("PUT",`/pallet-types/${b.dataset.a}`,{is_active:b.dataset.on!=="1"});toast("Size updated.");draw()}catch(e){fail(e)}
+  });
+  $("#go").onclick=async()=>{
+    $("#go").disabled=true;
+    try{
+      await call("POST","/pallet-types",{name:$("#nm").value.trim(),size:$("#sz").value.trim(),cft_per_pallet:parseFloat($("#cf").value)});
+      toast("Size added.");draw();
+    }catch(e){fail(e);$("#go").disabled=false}
+  };
+  await recipesPanel();
+}
+};
+draw();
+</script>
+</body>
+</html>

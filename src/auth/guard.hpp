@@ -36,6 +36,16 @@ inline const std::string &jwtSecret(){
     return s;
 }
 
+inline std::string duplicateMessage(const std::string& m){
+    auto has=[&](const char* k){ return m.find(k)!=std::string::npos; };
+    if(has("users_username_key"))   return "That username is already taken. Choose a different username.";
+    if(has("materials_name_key"))   return "A material with this name already exists.";
+    if(has("pallet_types_name_key"))    return "A pallet size with this name already exists.";
+    if(has("packing_specs_name_key"))   return "A packing recipe with this name already exists.";
+    if(has("sites_name_key"))   return "A site with this name already exists.";
+    return "This already exists (duplicate entry).";
+}
+
 // First line of a Postgres error, without the "ERROR:  " prefix.
 inline std::string dbMessage(const std::exception &e){
     std::string x =e.what();
@@ -53,7 +63,7 @@ inline Handler safe(Handler next) {
         }catch(const nlohmann::json::exception&){
             res.error(400, "missing or wrong-typed field in JSON body");
         }catch(const pqxx::unique_violation& e){
-            res.error(409, dbMessage(e));
+            res.error(409, duplicateMessage(e.what()));
         }catch(const pqxx::sql_error& e){
             res.error(400, dbMessage(e));            // trigger messages arrive here
         }

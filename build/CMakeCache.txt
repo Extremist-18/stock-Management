@@ -207,6 +207,9 @@ PKG_CONFIG_ARGN:STRING=
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/opt/homebrew/bin/pkg-config
 
+//debug sanitizers
+SANITIZE:BOOL=OFF
+
 //Value Computed by CMake
 inventory_BINARY_DIR:STATIC=/Users/yasha/Desktop/Inventory App/build
 
@@ -217,7 +220,16 @@ inventory_IS_TOP_LEVEL:STATIC=ON
 inventory_SOURCE_DIR:STATIC=/Users/yasha/Desktop/Inventory App
 
 //Path to a library.
+pkgcfg_lib_OPENSSL_crypto:FILEPATH=/opt/homebrew/Cellar/openssl@4/4.1.0/lib/libcrypto.dylib
+
+//Path to a library.
+pkgcfg_lib_OPENSSL_ssl:FILEPATH=/opt/homebrew/Cellar/openssl@4/4.1.0/lib/libssl.dylib
+
+//Path to a library.
 pkgcfg_lib_PQXX_pqxx:FILEPATH=/opt/homebrew/Cellar/libpqxx/8.0.2/lib/libpqxx.dylib
+
+//Path to a library.
+pkgcfg_lib_SODIUM_sodium:FILEPATH=/opt/homebrew/Cellar/libsodium/1.0.22/lib/libsodium.dylib
 
 
 ########################
@@ -397,16 +409,51 @@ JSON_nlohmann_json_INCLUDEDIR:INTERNAL=
 JSON_nlohmann_json_LIBDIR:INTERNAL=
 JSON_nlohmann_json_PREFIX:INTERNAL=
 JSON_nlohmann_json_VERSION:INTERNAL=
+OPENSSL_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/openssl@4/4.1.0/include
+OPENSSL_CFLAGS_I:INTERNAL=
+OPENSSL_CFLAGS_OTHER:INTERNAL=
+OPENSSL_FOUND:INTERNAL=1
+OPENSSL_INCLUDEDIR:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/include
+OPENSSL_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/include
+OPENSSL_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/openssl@4/4.1.0/lib;-lssl;-lcrypto
+OPENSSL_LDFLAGS_OTHER:INTERNAL=
+OPENSSL_LIBDIR:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/lib
+OPENSSL_LIBRARIES:INTERNAL=ssl;crypto
+OPENSSL_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/lib
+OPENSSL_LIBS:INTERNAL=
+OPENSSL_LIBS_L:INTERNAL=
+OPENSSL_LIBS_OTHER:INTERNAL=
+OPENSSL_LIBS_PATHS:INTERNAL=
+OPENSSL_MODULE_NAME:INTERNAL=openssl
+OPENSSL_PREFIX:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0
+OPENSSL_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/openssl@4/4.1.0/include
+OPENSSL_STATIC_CFLAGS_I:INTERNAL=
+OPENSSL_STATIC_CFLAGS_OTHER:INTERNAL=
+OPENSSL_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/include
+OPENSSL_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/openssl@4/4.1.0/lib;-lssl;-lcrypto
+OPENSSL_STATIC_LDFLAGS_OTHER:INTERNAL=
+OPENSSL_STATIC_LIBDIR:INTERNAL=
+OPENSSL_STATIC_LIBRARIES:INTERNAL=ssl;crypto
+OPENSSL_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/lib
+OPENSSL_STATIC_LIBS:INTERNAL=
+OPENSSL_STATIC_LIBS_L:INTERNAL=
+OPENSSL_STATIC_LIBS_OTHER:INTERNAL=
+OPENSSL_STATIC_LIBS_PATHS:INTERNAL=
+OPENSSL_VERSION:INTERNAL=4.1.0
+OPENSSL_openssl_INCLUDEDIR:INTERNAL=
+OPENSSL_openssl_LIBDIR:INTERNAL=
+OPENSSL_openssl_PREFIX:INTERNAL=
+OPENSSL_openssl_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_ARGN
 PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
-PQXX_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libpqxx/8.0.2/include;-I/opt/homebrew/opt/libpq/include;-I/opt/homebrew/Cellar/openssl@4/4.0.3/include
+PQXX_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libpqxx/8.0.2/include;-I/opt/homebrew/opt/libpq/include;-I/opt/homebrew/Cellar/openssl@4/4.1.0/include
 PQXX_CFLAGS_I:INTERNAL=
 PQXX_CFLAGS_OTHER:INTERNAL=
 PQXX_FOUND:INTERNAL=1
 PQXX_INCLUDEDIR:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/include
-PQXX_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/include;/opt/homebrew/opt/libpq/include;/opt/homebrew/Cellar/openssl@4/4.0.3/include
+PQXX_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/include;/opt/homebrew/opt/libpq/include;/opt/homebrew/Cellar/openssl@4/4.1.0/include
 PQXX_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/libpqxx/8.0.2/lib;-lpqxx
 PQXX_LDFLAGS_OTHER:INTERNAL=
 PQXX_LIBDIR:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/lib
@@ -418,15 +465,15 @@ PQXX_LIBS_OTHER:INTERNAL=
 PQXX_LIBS_PATHS:INTERNAL=
 PQXX_MODULE_NAME:INTERNAL=libpqxx
 PQXX_PREFIX:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2
-PQXX_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libpqxx/8.0.2/include;-I/opt/homebrew/opt/libpq/include;-I/opt/homebrew/Cellar/openssl@4/4.0.3/include
+PQXX_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libpqxx/8.0.2/include;-I/opt/homebrew/opt/libpq/include;-I/opt/homebrew/Cellar/openssl@4/4.1.0/include
 PQXX_STATIC_CFLAGS_I:INTERNAL=
 PQXX_STATIC_CFLAGS_OTHER:INTERNAL=
-PQXX_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/include;/opt/homebrew/opt/libpq/include;/opt/homebrew/Cellar/openssl@4/4.0.3/include
-PQXX_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/libpqxx/8.0.2/lib;-lpqxx;-L/opt/homebrew/opt/libpq/lib;-lpq;-L/opt/homebrew/opt/readline/lib;-lpgcommon;-lpgport;-lpq-oauth;-lgssapi_krb5;-lm;-L/opt/homebrew/Cellar/openssl@4/4.0.3/lib;-lssl;-lcrypto;-L/usr/lib;-lcurl;-lldap;-lz
+PQXX_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/include;/opt/homebrew/opt/libpq/include;/opt/homebrew/Cellar/openssl@4/4.1.0/include
+PQXX_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/libpqxx/8.0.2/lib;-lpqxx;-L/opt/homebrew/opt/libpq/lib;-lpq;-L/opt/homebrew/opt/readline/lib;-lpgcommon;-lpgport;-lpq-oauth;-lgssapi_krb5;-lm;-L/opt/homebrew/Cellar/openssl@4/4.1.0/lib;-lssl;-lcrypto;-L/usr/lib;-lcurl;-lldap;-lz
 PQXX_STATIC_LDFLAGS_OTHER:INTERNAL=
 PQXX_STATIC_LIBDIR:INTERNAL=
 PQXX_STATIC_LIBRARIES:INTERNAL=pqxx;pq;pgcommon;pgport;pq-oauth;gssapi_krb5;m;ssl;crypto;curl;ldap;z
-PQXX_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/lib;/opt/homebrew/opt/libpq/lib;/opt/homebrew/opt/readline/lib;/opt/homebrew/Cellar/openssl@4/4.0.3/lib;/usr/lib
+PQXX_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/libpqxx/8.0.2/lib;/opt/homebrew/opt/libpq/lib;/opt/homebrew/opt/readline/lib;/opt/homebrew/Cellar/openssl@4/4.1.0/lib;/usr/lib
 PQXX_STATIC_LIBS:INTERNAL=
 PQXX_STATIC_LIBS_L:INTERNAL=
 PQXX_STATIC_LIBS_OTHER:INTERNAL=
@@ -436,11 +483,56 @@ PQXX_libpqxx_INCLUDEDIR:INTERNAL=
 PQXX_libpqxx_LIBDIR:INTERNAL=
 PQXX_libpqxx_PREFIX:INTERNAL=
 PQXX_libpqxx_VERSION:INTERNAL=
+SODIUM_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libsodium/1.0.22/include
+SODIUM_CFLAGS_I:INTERNAL=
+SODIUM_CFLAGS_OTHER:INTERNAL=
+SODIUM_FOUND:INTERNAL=1
+SODIUM_INCLUDEDIR:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/include
+SODIUM_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/include
+SODIUM_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/libsodium/1.0.22/lib;-lsodium
+SODIUM_LDFLAGS_OTHER:INTERNAL=
+SODIUM_LIBDIR:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/lib
+SODIUM_LIBRARIES:INTERNAL=sodium
+SODIUM_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/lib
+SODIUM_LIBS:INTERNAL=
+SODIUM_LIBS_L:INTERNAL=
+SODIUM_LIBS_OTHER:INTERNAL=
+SODIUM_LIBS_PATHS:INTERNAL=
+SODIUM_MODULE_NAME:INTERNAL=libsodium
+SODIUM_PREFIX:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22
+SODIUM_STATIC_CFLAGS:INTERNAL=-I/opt/homebrew/Cellar/libsodium/1.0.22/include
+SODIUM_STATIC_CFLAGS_I:INTERNAL=
+SODIUM_STATIC_CFLAGS_OTHER:INTERNAL=
+SODIUM_STATIC_INCLUDE_DIRS:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/include
+SODIUM_STATIC_LDFLAGS:INTERNAL=-L/opt/homebrew/Cellar/libsodium/1.0.22/lib;-lsodium;-lpthread;-pthread
+SODIUM_STATIC_LDFLAGS_OTHER:INTERNAL=-pthread
+SODIUM_STATIC_LIBDIR:INTERNAL=
+SODIUM_STATIC_LIBRARIES:INTERNAL=sodium;pthread
+SODIUM_STATIC_LIBRARY_DIRS:INTERNAL=/opt/homebrew/Cellar/libsodium/1.0.22/lib
+SODIUM_STATIC_LIBS:INTERNAL=
+SODIUM_STATIC_LIBS_L:INTERNAL=
+SODIUM_STATIC_LIBS_OTHER:INTERNAL=
+SODIUM_STATIC_LIBS_PATHS:INTERNAL=
+SODIUM_VERSION:INTERNAL=1.0.22
+SODIUM_libsodium_INCLUDEDIR:INTERNAL=
+SODIUM_libsodium_LIBDIR:INTERNAL=
+SODIUM_libsodium_PREFIX:INTERNAL=
+SODIUM_libsodium_VERSION:INTERNAL=
 __pkg_config_arguments_JSON:INTERNAL=REQUIRED;nlohmann_json
+__pkg_config_arguments_OPENSSL:INTERNAL=REQUIRED;openssl
 __pkg_config_arguments_PQXX:INTERNAL=REQUIRED;libpqxx
+__pkg_config_arguments_SODIUM:INTERNAL=REQUIRED;libsodium
 __pkg_config_checked_JSON:INTERNAL=1
+__pkg_config_checked_OPENSSL:INTERNAL=1
 __pkg_config_checked_PQXX:INTERNAL=1
+__pkg_config_checked_SODIUM:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_OPENSSL_crypto
+pkgcfg_lib_OPENSSL_crypto-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_OPENSSL_ssl
+pkgcfg_lib_OPENSSL_ssl-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_PQXX_pqxx
 pkgcfg_lib_PQXX_pqxx-ADVANCED:INTERNAL=1
-prefix_result:INTERNAL=
+//ADVANCED property for variable: pkgcfg_lib_SODIUM_sodium
+pkgcfg_lib_SODIUM_sodium-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/opt/homebrew/Cellar/openssl@4/4.1.0/lib
 

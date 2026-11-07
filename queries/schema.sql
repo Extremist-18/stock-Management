@@ -335,8 +335,8 @@ BEGIN
     RAISE EXCEPTION 'Transfer entries cannot be edited or deleted';
   END IF;
 
-  IF OLD.production_id IS NOT NULL THEN
-    RAISE EXCEPTION 'Production entries cannot be edited or deleted';
+  IF OLD.production_id IS NOT NULL OR OLD.packing_id IS NOT NULL THEN
+    RAISE EXCEPTION 'Production and packing entries cannot be edited or deleted';
   END IF;
 
   IF now() - OLD.created_at > edit_window() THEN
@@ -353,6 +353,7 @@ BEGIN
     OR NEW.created_at    <> OLD.created_at
     OR NEW.transfer_ref  IS DISTINCT FROM OLD.transfer_ref
     OR NEW.production_id IS DISTINCT FROM OLD.production_id
+    OR NEW.packing_id    IS DISTINCT FROM OLD.packing_id
     OR NEW.party         IS DISTINCT FROM OLD.party THEN
       RAISE EXCEPTION 'Only quantity and note can be edited';
     END IF;
@@ -507,22 +508,80 @@ DROP TRIGGER IF EXISTS trg_ptc_immutable ON pallet_type_cft;
 CREATE TRIGGER trg_ptc_immutable BEFORE UPDATE OR DELETE ON pallet_type_cft
 FOR EACH ROW EXECUTE FUNCTION pallet_type_cft_immutable();
 
+CREATE TABLE IF NOT EXISTS packing_specs (
+  id             SERIAL PRIMARY KEY,
+  name           TEXT NOT NULL UNIQUE,
+  pallet_type_id INT NOT NULL REFERENCES pallet_types(id),
+  is_active      BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS packing_spec_items (
+  spec_id        INT NOT NULL REFERENCES packing_specs(id),
+  material_id    INT NOT NULL REFERENCES materials(id),
+  qty_per_pallet NUMERIC(14,6) NOT NULL CHECK (qty_per_pallet > 0),
+  PRIMARY KEY (spec_id, material_id)
+);
+
+CREATE TABLE IF NOT EXISTS packing_runs (
+  id             BIGSERIAL PRIMARY KEY,
+  site_id        INT NOT NULL REFERENCES sites(id),
+  spec_id        INT NOT NULL REFERENCES packing_specs(id),
+  spec_name      TEXT NOT NULL,
+  pallet_type_id INT NOT NULL REFERENCES pallet_types(id),
+  pallets        INT NOT NULL CHECK (pallets > 0),
+  note           TEXT,
+  client_ref     UUID,
+  txn_date       DATE NOT NULL DEFAULT ((now() AT TIME ZONE 'Asia/Kolkata')::date),
+  created_by     INT NOT NULL REFERENCES users(id),
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE UNIQUE INDEX IF NOT EXISTS packing_runs_client_ref_key ON packing_runs (client_ref);
+CREATE INDEX IF NOT EXISTS packing_runs_lookup ON packing_runs (site_id, created_at DESC);
+
+CREATE TABLE IF NOT EXISTS packing_run_lines (
+  run_id         BIGINT NOT NULL REFERENCES packing_runs(id),
+  material_id    INT NOT NULL REFERENCES materials(id),
+  qty_per_pallet NUMERIC(14,6) NOT NULL,
+  consumed       NUMERIC(14,3) NOT NULL CHECK (consumed > 0),
+  PRIMARY KEY (run_id, material_id)
+);
+
+CREATE TABLE IF NOT EXISTS packing_reversals (
+  run_id      BIGINT PRIMARY KEY REFERENCES packing_runs(id),
+  reversed_by INT NOT NULL REFERENCES users(id),
+  reversed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  reason      TEXT NOT NULL
+);
+
+-- every stock row made by a packing run points back to it (so it gets locked)
+ALTER TABLE stock_txns ADD COLUMN IF NOT EXISTS packing_id BIGINT REFERENCES packing_runs(id);
+
+CREATE OR REPLACE FUNCTION packing_immutable() RETURNS trigger AS $$
+BEGIN
+  RAISE EXCEPTION 'Packing records cannot be changed; ask the admin to reverse the run';
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_pk_runs_immutable ON packing_runs;
+CREATE TRIGGER trg_pk_runs_immutable BEFORE UPDATE OR DELETE ON packing_runs
+FOR EACH ROW EXECUTE FUNCTION packing_immutable();
+
+DROP TRIGGER IF EXISTS trg_pk_lines_immutable ON packing_run_lines;
+CREATE TRIGGER trg_pk_lines_immutable BEFORE UPDATE OR DELETE ON packing_run_lines
+FOR EACH ROW EXECUTE FUNCTION packing_immutable();
+
+
 INSERT INTO sites (name, location) VALUES
+  ('Godown Gujarat', 'Gujarat'),
   ('Caldreys Gujarat', 'Wankaner'),
   ('TRL Gujarat',      'Juna Katariya'),
   ('Caldreys Orrisa',  'Orrisa')
 ON CONFLICT (name) DO NOTHING;
 
-
-
-
-
 --- NEED CHANGE HERE!!!
 INSERT INTO materials (name, unit) VALUES
-  ('Cement','bags'), ('Sand','tons'), ('Steel','kg')
-ON CONFLICT (name) DO NOTHING;
-
-INSERT INTO materials (name, unit) VALUES ('Wood','CFT')
+  ('PET Strap','Roll'), ('strech flim','Kgs'), ('Steel','kg'),('Wood','CFT')
 ON CONFLICT (name) DO NOTHING;
 
 -- First admin: only created when you pass  -v admin_hash='...'

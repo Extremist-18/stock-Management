@@ -5,7 +5,7 @@ events:
     kind: "find-v1"
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineSystem.cmake:12 (find_program)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_UNAME"
     description: "Path to a program."
@@ -20,6 +20,7 @@ events:
     names:
       - "uname"
     candidate_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -42,6 +43,7 @@ events:
       - "/Users/yasha/.cargo/bin/"
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/uname"
       - "/opt/homebrew/opt/libpq/bin/uname"
       - "/Users/yasha/.wasmer/bin/uname"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/uname"
@@ -55,6 +57,7 @@ events:
     found: "/usr/bin/uname"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -89,14 +92,14 @@ events:
     kind: "message-v1"
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineSystem.cmake:218 (message)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       The system is: Darwin - 25.3.0 - arm64
   -
     kind: "find-v1"
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeUnixFindMake.cmake:5 (find_program)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_MAKE_PROGRAM"
     description: "Path to a program."
@@ -113,6 +116,7 @@ events:
       - "make"
       - "smake"
     candidate_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -135,6 +139,7 @@ events:
       - "/Users/yasha/.cargo/bin/"
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/gmake"
       - "/opt/homebrew/opt/libpq/bin/gmake"
       - "/Users/yasha/.wasmer/bin/gmake"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/gmake"
@@ -156,6 +161,7 @@ events:
       - "/Library/Apple/usr/bin/gmake"
       - "/Users/yasha/.cargo/bin/gmake"
       - "/Users/yasha/.foundry/bin/gmake"
+      - "/opt/homebrew/opt/postgresql@16/bin/make"
       - "/opt/homebrew/opt/libpq/bin/make"
       - "/Users/yasha/.wasmer/bin/make"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/make"
@@ -169,6 +175,7 @@ events:
     found: "/usr/bin/make"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -204,7 +211,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompiler.cmake:73 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:69 (_cmake_find_compiler)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_CXX_COMPILER"
     description: "CXX compiler"
@@ -225,6 +232,7 @@ events:
       - "icx"
       - "clang++"
     candidate_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -247,6 +255,7 @@ events:
       - "/Users/yasha/.cargo/bin/"
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/c++"
       - "/opt/homebrew/opt/libpq/bin/c++"
       - "/Users/yasha/.wasmer/bin/c++"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/c++"
@@ -260,6 +269,7 @@ events:
     found: "/usr/bin/c++"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -298,7 +308,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "file"
     variable: "src_in"
     description: "Path to a file."
@@ -317,6 +327,7 @@ events:
     found: "/opt/homebrew/share/cmake/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -353,7 +364,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
       Compiler: /usr/bin/c++ 
@@ -374,7 +385,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerId.cmake:323 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Detecting CXX compiler apple sysroot: "/usr/bin/c++" "-E" "apple-sdk.cpp"
         # 1 "apple-sdk.cpp"
@@ -415,7 +426,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_AR"
     description: "Path to a program."
@@ -431,6 +442,7 @@ events:
       - "ar"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -454,6 +466,7 @@ events:
     found: "/usr/bin/ar"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -489,7 +502,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_RANLIB"
     description: "Path to a program."
@@ -505,6 +518,7 @@ events:
       - "ranlib"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -528,6 +542,7 @@ events:
     found: "/usr/bin/ranlib"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -563,7 +578,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_STRIP"
     description: "Path to a program."
@@ -579,6 +594,7 @@ events:
       - "strip"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -602,6 +618,7 @@ events:
     found: "/usr/bin/strip"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -637,7 +654,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_LINKER"
     description: "Path to a program."
@@ -653,6 +670,7 @@ events:
       - "ld"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -676,6 +694,7 @@ events:
     found: "/usr/bin/ld"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -711,7 +730,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_NM"
     description: "Path to a program."
@@ -727,6 +746,7 @@ events:
       - "nm"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -750,6 +770,7 @@ events:
     found: "/usr/bin/nm"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -785,7 +806,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_OBJDUMP"
     description: "Path to a program."
@@ -801,6 +822,7 @@ events:
       - "objdump"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -824,6 +846,7 @@ events:
     found: "/usr/bin/objdump"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -859,7 +882,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_OBJCOPY"
     description: "Path to a program."
@@ -875,6 +898,7 @@ events:
       - "objcopy"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -897,6 +921,7 @@ events:
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
       - "/usr/bin/objcopy"
+      - "/opt/homebrew/opt/postgresql@16/bin/objcopy"
       - "/opt/homebrew/opt/libpq/bin/objcopy"
       - "/Users/yasha/.wasmer/bin/objcopy"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/objcopy"
@@ -920,6 +945,7 @@ events:
     found: false
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -955,7 +981,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_READELF"
     description: "Path to a program."
@@ -971,6 +997,7 @@ events:
       - "readelf"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -993,6 +1020,7 @@ events:
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
       - "/usr/bin/readelf"
+      - "/opt/homebrew/opt/postgresql@16/bin/readelf"
       - "/opt/homebrew/opt/libpq/bin/readelf"
       - "/Users/yasha/.wasmer/bin/readelf"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/readelf"
@@ -1016,6 +1044,7 @@ events:
     found: false
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1051,7 +1080,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_DLLTOOL"
     description: "Path to a program."
@@ -1067,6 +1096,7 @@ events:
       - "dlltool"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -1089,6 +1119,7 @@ events:
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
       - "/usr/bin/dlltool"
+      - "/opt/homebrew/opt/postgresql@16/bin/dlltool"
       - "/opt/homebrew/opt/libpq/bin/dlltool"
       - "/Users/yasha/.wasmer/bin/dlltool"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/dlltool"
@@ -1112,6 +1143,7 @@ events:
     found: false
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1147,7 +1179,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_ADDR2LINE"
     description: "Path to a program."
@@ -1163,6 +1195,7 @@ events:
       - "addr2line"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -1185,6 +1218,7 @@ events:
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
       - "/usr/bin/addr2line"
+      - "/opt/homebrew/opt/postgresql@16/bin/addr2line"
       - "/opt/homebrew/opt/libpq/bin/addr2line"
       - "/Users/yasha/.wasmer/bin/addr2line"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/addr2line"
@@ -1208,6 +1242,7 @@ events:
     found: false
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1243,7 +1278,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_TAPI"
     description: "Path to a program."
@@ -1259,6 +1294,7 @@ events:
       - "tapi"
     candidate_directories:
       - "/usr/bin/"
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -1281,6 +1317,7 @@ events:
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
       - "/usr/bin/tapi"
+      - "/opt/homebrew/opt/postgresql@16/bin/tapi"
       - "/opt/homebrew/opt/libpq/bin/tapi"
       - "/Users/yasha/.wasmer/bin/tapi"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/tapi"
@@ -1304,6 +1341,7 @@ events:
     found: false
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1339,7 +1377,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/Platform/Darwin.cmake:66 (find_program)"
       - "/opt/homebrew/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:32 (include)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     mode: "program"
     variable: "CMAKE_INSTALL_NAME_TOOL"
     description: "Path to a program."
@@ -1354,6 +1392,7 @@ events:
     names:
       - "install_name_tool"
     candidate_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -1376,6 +1415,7 @@ events:
       - "/Users/yasha/.cargo/bin/"
       - "/Users/yasha/.foundry/bin/"
     searched_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/install_name_tool"
       - "/opt/homebrew/opt/libpq/bin/install_name_tool"
       - "/Users/yasha/.wasmer/bin/install_name_tool"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/install_name_tool"
@@ -1389,6 +1429,7 @@ events:
     found: "/usr/bin/install_name_tool"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1425,12 +1466,12 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:123 (try_compile)"
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H"
-      binary: "/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H"
+      source: "/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4"
+      binary: "/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1444,19 +1485,19 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: '/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H'
+        Change Dir: '/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_cacbd/fast
-        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_cacbd.dir/build.make CMakeFiles/cmTC_cacbd.dir/build
-        Building CXX object CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9aba1/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9aba1.dir/build.make CMakeFiles/cmTC_9aba1.dir/build
+        Building CXX object CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Apple clang version 17.0.0 (clang-1700.0.13.5)
         Target: arm64-apple-darwin25.3.0
         Thread model: posix
         InstalledDir: /Library/Developer/CommandLineTools/usr/bin
         clang++: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
         ignoring nonexistent directory "/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"
-         "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.5.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb "-fdebug-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H" -target-linker-version 1167.5 -v "-fcoverage-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H" -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.5.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb "-fdebug-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4" -target-linker-version 1167.5 -v "-fcoverage-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4" -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 17.0.0 (clang-1700.0.13.5) default target arm64-apple-darwin25.3.0
         ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/SubFrameworks"
@@ -1470,13 +1511,13 @@ events:
          /Library/Developer/CommandLineTools/usr/include
          /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
         End of search list.
-        Linking CXX executable cmTC_cacbd
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cacbd.dir/link.txt --verbose=1
+        Linking CXX executable cmTC_9aba1
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9aba1.dir/link.txt --verbose=1
         Apple clang version 17.0.0 (clang-1700.0.13.5)
         Target: arm64-apple-darwin25.3.0
         Thread model: posix
         InstalledDir: /Library/Developer/CommandLineTools/usr/bin
-         "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_cacbd -L/usr/local/lib -v CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+         "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9aba1 -L/usr/local/lib -v CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-1167.5
         BUILD 01:45:05 Apr 30 2025
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
@@ -1488,7 +1529,7 @@ events:
         	/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
-        /usr/bin/c++  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_cacbd
+        /usr/bin/c++  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_9aba1
         
       exitCode: 0
   -
@@ -1496,7 +1537,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:160 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Effective list of requested architectures (possibly empty)  : ""
       Effective list of architectures found in the ABI info binary: "arm64"
@@ -1505,7 +1546,7 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:255 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Parsed CXX implicit include dir info: rv=done
         found start of include info
@@ -1529,24 +1570,24 @@ events:
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:291 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H']
+        ignore line: [Change Dir: '/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_cacbd/fast]
-        ignore line: [/Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_cacbd.dir/build.make CMakeFiles/cmTC_cacbd.dir/build]
-        ignore line: [Building CXX object CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9aba1/fast]
+        ignore line: [/Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_9aba1.dir/build.make CMakeFiles/cmTC_9aba1.dir/build]
+        ignore line: [Building CXX object CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Apple clang version 17.0.0 (clang-1700.0.13.5)]
         ignore line: [Target: arm64-apple-darwin25.3.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
         ignore line: [clang++: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"]
-        ignore line: [ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.5.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb "-fdebug-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H" -target-linker-version 1167.5 -v "-fcoverage-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-E3dZ0H" -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.5.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb "-fdebug-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4" -target-linker-version 1167.5 -v "-fcoverage-compilation-dir=/Users/yasha/Desktop/Inventory App/build/CMakeFiles/CMakeScratch/TryCompile-IvWxu4" -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 17.0.0 (clang-1700.0.13.5) default target arm64-apple-darwin25.3.0]
         ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/SubFrameworks"]
@@ -1560,14 +1601,14 @@ events:
         ignore line: [ /Library/Developer/CommandLineTools/usr/include]
         ignore line: [ /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking CXX executable cmTC_cacbd]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cacbd.dir/link.txt --verbose=1]
+        ignore line: [Linking CXX executable cmTC_9aba1]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9aba1.dir/link.txt --verbose=1]
         ignore line: [Apple clang version 17.0.0 (clang-1700.0.13.5)]
         ignore line: [Target: arm64-apple-darwin25.3.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
-        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_cacbd -L/usr/local/lib -v CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> linker [/Library/Developer/CommandLineTools/usr/bin/ld]
-        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_cacbd -L/usr/local/lib -v CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9aba1 -L/usr/local/lib -v CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> linker [/Library/Developer/CommandLineTools/usr/bin/ld]
+        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.5.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9aba1 -L/usr/local/lib -v CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
           arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -1584,10 +1625,10 @@ events:
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_cacbd] ==> ignore
+          arg [cmTC_9aba1] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_cacbd.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_9aba1.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
@@ -1612,7 +1653,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:41 (message)"
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:337 (cmake_determine_linker_id)"
       - "/opt/homebrew/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:2 (project)"
+      - "CMakeLists.txt:6 (project)"
     message: |
       Running the CXX compiler's linker: "/Library/Developer/CommandLineTools/usr/bin/ld" "-v"
       @(#)PROGRAM:ld PROJECT:ld-1167.5
@@ -1625,7 +1666,7 @@ events:
     kind: "find-v1"
     backtrace:
       - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:517 (find_program)"
-      - "CMakeLists.txt:8 (find_package)"
+      - "CMakeLists.txt:12 (find_package)"
     mode: "program"
     variable: "PKG_CONFIG_EXECUTABLE"
     description: "pkg-config executable"
@@ -1641,6 +1682,7 @@ events:
       - "pkg-config"
       - "pkgconf"
     candidate_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/"
       - "/opt/homebrew/opt/libpq/bin/"
       - "/Users/yasha/.wasmer/bin/"
       - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand/"
@@ -1694,6 +1736,8 @@ events:
       - "/Users/yasha/Applications/"
       - "/Applications/"
     searched_directories:
+      - "/opt/homebrew/opt/postgresql@16/bin/pkg-config"
+      - "/opt/homebrew/opt/postgresql@16/bin/pkgconf"
       - "/opt/homebrew/opt/libpq/bin/pkg-config"
       - "/opt/homebrew/opt/libpq/bin/pkgconf"
       - "/Users/yasha/.wasmer/bin/pkg-config"
@@ -1709,6 +1753,7 @@ events:
     found: "/opt/homebrew/bin/pkg-config"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"
@@ -1763,7 +1808,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
       - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
       - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1166 (_pkg_check_modules_internal)"
-      - "CMakeLists.txt:9 (pkg_check_modules)"
+      - "CMakeLists.txt:13 (pkg_check_modules)"
     mode: "library"
     variable: "pkgcfg_lib_PQXX_pqxx"
     description: "Path to a library."
@@ -1782,6 +1827,256 @@ events:
     found: "/opt/homebrew/Cellar/libpqxx/8.0.2/lib/libpqxx.dylib"
     search_context:
       ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/Library/Apple/usr/bin"
+        - "/opt/homebrew/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/yasha/.cargo/bin"
+        - "/Users/yasha/.foundry/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+        - "/sw"
+        - "/opt/local"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+      CMAKE_SYSTEM_FRAMEWORK_PATH:
+        - "~/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Network/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Frameworks"
+        - "/Network/Library/Frameworks"
+        - "/System/Library/Frameworks"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:761 (find_library)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1166 (_pkg_check_modules_internal)"
+      - "CMakeLists.txt:15 (pkg_check_modules)"
+    mode: "library"
+    variable: "pkgcfg_lib_SODIUM_sodium"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "sodium"
+    candidate_directories:
+      - "/opt/homebrew/Cellar/libsodium/1.0.22/lib/"
+    found: "/opt/homebrew/Cellar/libsodium/1.0.22/lib/libsodium.dylib"
+    search_context:
+      ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/Library/Apple/usr/bin"
+        - "/opt/homebrew/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/yasha/.cargo/bin"
+        - "/Users/yasha/.foundry/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+        - "/sw"
+        - "/opt/local"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+      CMAKE_SYSTEM_FRAMEWORK_PATH:
+        - "~/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Network/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Frameworks"
+        - "/Network/Library/Frameworks"
+        - "/System/Library/Frameworks"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:761 (find_library)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1166 (_pkg_check_modules_internal)"
+      - "CMakeLists.txt:16 (pkg_check_modules)"
+    mode: "library"
+    variable: "pkgcfg_lib_OPENSSL_ssl"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ssl"
+    candidate_directories:
+      - "/opt/homebrew/Cellar/openssl@4/4.1.0/lib/"
+    found: "/opt/homebrew/Cellar/openssl@4/4.1.0/lib/libssl.dylib"
+    search_context:
+      ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/opt/pmk/env/global/bin"
+        - "/Library/Apple/usr/bin"
+        - "/opt/homebrew/bin"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/debugCommand"
+        - "/Users/yasha/Library/Application Support/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/opt/homebrew/opt/libpq/bin"
+        - "/Users/yasha/.wasmer/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.11/bin"
+        - "/Library/Frameworks/Python.framework/Versions/3.14/bin"
+        - "/opt/homebrew/sbin"
+        - "/Users/yasha/.cargo/bin"
+        - "/Users/yasha/.foundry/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/opt/homebrew"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+        - "/sw"
+        - "/opt/local"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+      CMAKE_SYSTEM_FRAMEWORK_PATH:
+        - "~/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/Network/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Developer/CommandLineTools/Library/Frameworks"
+        - "/Library/Frameworks"
+        - "/Network/Library/Frameworks"
+        - "/System/Library/Frameworks"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:761 (find_library)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
+      - "/opt/homebrew/share/cmake/Modules/FindPkgConfig.cmake:1166 (_pkg_check_modules_internal)"
+      - "CMakeLists.txt:16 (pkg_check_modules)"
+    mode: "library"
+    variable: "pkgcfg_lib_OPENSSL_crypto"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "FIRST"
+      SearchAppBundle: "FIRST"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "crypto"
+    candidate_directories:
+      - "/opt/homebrew/Cellar/openssl@4/4.1.0/lib/"
+    found: "/opt/homebrew/Cellar/openssl@4/4.1.0/lib/libcrypto.dylib"
+    search_context:
+      ENV{PATH}:
+        - "/opt/homebrew/opt/postgresql@16/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/opt/homebrew/opt/libpq/bin"
         - "/Users/yasha/.wasmer/bin"

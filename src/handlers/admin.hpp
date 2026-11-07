@@ -29,9 +29,20 @@ inline void registerAdminRoutes(App &app, Pool &pool){
         if(password.size()<6){res.error(400,"Password must have atleast 6 characters"); return;}
         if((role!="admin") && (role!="supervisor")) {res.error(401,"Role must be supervisor or admin only"); return;}
 
-        std::string hash =pw::hash(password);
         auto conn=pool.acquire();
         pqxx::work tx(*conn);
+        // clear messages before the (slow) password hashing and the insert
+        auto dup=tx.exec("SELECT 1 FROM users WHERE username=$1 UNION ALL SELECT 1 FROM user_requests WHERE username=$1 AND status='PENDING'",pqxx::params{username});
+        if(!dup.empty()){res.error(409,"Username \""+username+"\" is already taken. Choose a different username."); return;}
+        if(j.contains("site_ids")){
+            if(!j["site_ids"].is_array()){res.error(400,"site_ids must be a list"); return;}
+            for(auto &s:j["site_ids"]){
+                if(!s.is_number_integer()){res.error(400,"site_ids must be numbers"); return;}
+                auto ok=tx.exec("SELECT 1 FROM sites WHERE id=$1 AND is_active",pqxx::params{s.get<int>()});
+                if(ok.empty()){res.error(400,"Site number "+std::to_string(s.get<int>())+" does not exist or is switched off."); return;}
+            }
+        }
+        std::string hash =pw::hash(password);
         auto x=tx.exec("INSERT INTO users (name,username,password_hash,role) VALUES ($1,$2,$3,$4) RETURNING id",pqxx::params{name, username, hash, role});
         int id = x[0][0].as<int>();
         if(j.contains("site_ids"))
